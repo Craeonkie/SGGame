@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float _acceleration;
@@ -28,6 +29,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         // Jumping
         if (isGrounded && _isJumping && !inMenu)
         {
@@ -38,6 +44,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         // Movement
         if (_isMoving && !inMenu)
         {
@@ -76,11 +87,6 @@ public class PlayerController : MonoBehaviour
             }
             myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x , myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
-    }
-
-    public void ToggleInMenu(bool inmenu)
-    {
-        inMenu = inmenu;
     }
 
     // Movement Input
