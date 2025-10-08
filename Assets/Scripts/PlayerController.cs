@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         // Ground drag (slows horizontal velocity only)
         if (isGrounded)
         {
-            if (_isMoving)
+            if (_isMoving && !inMenu)
             {
                 myRigidbody.linearDamping = _dragWhileMoving;
             }

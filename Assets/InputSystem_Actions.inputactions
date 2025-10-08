@@ -28,7 +28,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "801fa04f-b37a-434f-916d-7c50c8798149",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -37,16 +37,16 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "961fab91-23ca-4e80-89e5-fb4b63d020ee",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Crouch",
                     "type": "Button",
                     "id": "032c6caa-d2e7-4114-a18b-c1279c9e39a6",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -55,7 +55,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "d1c6f478-5c6d-4613-a97b-3e41d05b9a76",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

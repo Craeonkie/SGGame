@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb4c7a0575789c04183ae570d62699ec, type: 3}
-  m_Name: GameManager
-  m_EditorClassIdentifier: Assembly-CSharp::NewScriptableObjectScript
-  maxTimer: 60
-  currentTimer: 0
+  m_Script: {fileID: 11500000, guid: fb2ef54f85383a74987eabd643e8a902, type: 3}
+  m_Name: Inventory
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  items: []

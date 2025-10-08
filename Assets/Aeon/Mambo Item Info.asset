@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb4c7a0575789c04183ae570d62699ec, type: 3}
-  m_Name: GameManager
-  m_EditorClassIdentifier: Assembly-CSharp::NewScriptableObjectScript
-  maxTimer: 60
-  currentTimer: 0
+  m_Script: {fileID: 11500000, guid: 398ff9aef2e11a244af77d94e34eb278, type: 3}
+  m_Name: Mambo Item Info
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  itemName: Mambo
+  spawnLocation: {x: 5, y: 1, z: -5}
