@@ -9,8 +9,8 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float _acceleration;
-    [SerializeField] private float _maxVelocity;
+    [SerializeField] private float _acceleration; 
+    [SerializeField] private float _maxVelocity; // max spd the player can go, so change the velocity
     [SerializeField] private float _jumpPower;
     [SerializeField] private float _dragWhileGrounded;
     [SerializeField] private float _dragWhileMoving;
@@ -27,14 +27,15 @@ public class PlayerController : MonoBehaviour
     //changes - jolin
     private bool _climb = false;
     private bool _drop = false;
+    private bool _ifOnLedge = false;
+    private bool _isInMud = false;
+    private bool _isInWater = false;
 
     [Header("For other scripts to access")]
+    public bool _swing = false; //changes - jolin
     public bool isGrounded = false;
     public bool limitSpeed = true;
     public bool inMenu = false;
-
-    //changes - jolin
-    private bool _ifOnLedge = false;
 
     private void Start()
     {
@@ -85,9 +86,15 @@ public class PlayerController : MonoBehaviour
                 //myRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 myRigidbody.useGravity = true;
             }
+
+            //check for mud / water
+            if (_isInMud) val = 5;
+            if (_isInWater) val = 8;
+
             Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
             worldMoveDirection.Normalize();
             myRigidbody.linearVelocity += val * Time.fixedDeltaTime * worldMoveDirection;
+
 
             //float speedInDir = Vector3.Dot(myRigidbody.linearVelocity, worldMoveDirection); // current velocity along that direction
             //print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
@@ -137,6 +144,7 @@ public class PlayerController : MonoBehaviour
         //changes - jolin
         map.FindAction("Climb").performed += climbActionPerformed;
         map.FindAction("JumpDown").performed += dropActionPerformed;
+        map.FindAction("Swing").performed += swingActionPerformed;
     }
 
     private void OnDisable()
@@ -164,6 +172,11 @@ public class PlayerController : MonoBehaviour
         if (drop != null)
         {
             drop.performed -= dropActionPerformed;
+        }
+        var swing = map.FindAction("Swing");
+        if (swing != null)
+        {
+            swing.performed -= swingActionPerformed;
         }
     }
 
@@ -194,7 +207,11 @@ public class PlayerController : MonoBehaviour
         _drop = true;
     }
 
-    //changes - jolin
+    private void swingActionPerformed(InputAction.CallbackContext ctx)
+    {
+        _swing = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ledge"))
@@ -205,5 +222,21 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         _ifOnLedge = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        //if on mud and water, slower
+        if (collision.gameObject.CompareTag("Mud"))
+            _isInMud = true;
+        else
+            _isInMud = false;
+
+        if (collision.gameObject.CompareTag("Water"))
+            _isInWater = true;
+        //if not, faster
+        else
+            _isInWater = false;
     }
 }

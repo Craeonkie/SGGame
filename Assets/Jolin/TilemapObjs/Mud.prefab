@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3144307895132672973}
   - component: {fileID: 8020658286040459891}
   - component: {fileID: 8735067381825981905}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mud
-  m_TagString: Untagged
+  m_TagString: Mud
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
