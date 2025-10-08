@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpPower;
     [SerializeField] private float _dragWhileGrounded;
     [SerializeField] private float _dragWhileMoving;
-    [SerializeField] private PlayerInput playerInput;
 
     private Rigidbody myRigidbody;
     private Vector3 _moveDirection = Vector3.zero;
