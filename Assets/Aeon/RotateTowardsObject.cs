@@ -7,6 +7,6 @@ public class RotateTowardsObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = gameObjectTransform.rotation;
+        transform.rotation = gameObjectTransform.rotation * Quaternion.Euler(90, 180, 0); ;
     }
 }
