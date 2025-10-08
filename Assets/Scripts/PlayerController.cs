@@ -1,9 +1,8 @@
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float _acceleration;
@@ -11,6 +10,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float _jumpPower;
     [SerializeField] private float _dragWhileGrounded;
     [SerializeField] private float _dragWhileMoving;
+    [SerializeField] private PlayerInput playerInput;
 
     private Rigidbody myRigidbody;
     private Vector3 _moveDirection = Vector3.zero;
@@ -29,11 +29,6 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
-
         // Jumping
         if (isGrounded && _isJumping && !inMenu)
         {
@@ -44,11 +39,6 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
-
         // Movement
         if (_isMoving && !inMenu)
         {
@@ -58,7 +48,6 @@ public class PlayerController : NetworkBehaviour
             myRigidbody.linearVelocity += _acceleration * Time.fixedDeltaTime * worldMoveDirection;
 
             //float speedInDir = Vector3.Dot(myRigidbody.linearVelocity, worldMoveDirection); // current velocity along that direction
-            print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
         }
 
         // Ground drag (slows horizontal velocity only)
@@ -85,14 +74,16 @@ public class PlayerController : NetworkBehaviour
             {
                 horizontalVelocity = Mathf.Max(horizontalVelocity.magnitude - (_acceleration * Time.fixedDeltaTime), _maxVelocity) * horizontalVelocity.normalized;
             }
-            myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x , myRigidbody.linearVelocity.y, horizontalVelocity.z);
+            myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x, myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
+        print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
     }
 
     // Movement Input
     private void OnEnable()
     {
         var map = InputSystem.actions;
+        map.Enable();
         map.FindAction("Move").performed += MoveActionPerformed;
         map.FindAction("Move").canceled += MoveActionCancelled;
         map.FindAction("Jump").performed += JumpActionPerformed;
