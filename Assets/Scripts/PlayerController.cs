@@ -1,9 +1,5 @@
-using TreeEditor;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -135,6 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_isMoving)
             {
+                print("iyvyid");
                 _animator.SetBool("isWalking", true);
                 myRigidbody.linearDamping = _dragWhileMoving;
             }
@@ -160,6 +157,7 @@ public class PlayerController : MonoBehaviour
             }
             myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x, myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
+        print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
     }
 
     public void ToggleInMenu(bool inmenu)
@@ -171,6 +169,7 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         var map = InputSystem.actions;
+        map.Enable();
         map.FindAction("Move").performed += MoveActionPerformed;
         map.FindAction("Move").canceled += MoveActionCancelled;
         map.FindAction("Jump").performed += JumpActionPerformed;
