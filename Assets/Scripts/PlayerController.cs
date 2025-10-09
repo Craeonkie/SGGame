@@ -1,9 +1,8 @@
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float _acceleration;
@@ -29,11 +28,6 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
-
         // Jumping
         if (isGrounded && _isJumping && !inMenu)
         {
@@ -44,11 +38,6 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
-
         // Movement
         if (_isMoving && !inMenu)
         {
@@ -85,7 +74,7 @@ public class PlayerController : NetworkBehaviour
             {
                 horizontalVelocity = Mathf.Max(horizontalVelocity.magnitude - (_acceleration * Time.fixedDeltaTime), _maxVelocity) * horizontalVelocity.normalized;
             }
-            myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x , myRigidbody.linearVelocity.y, horizontalVelocity.z);
+            myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x, myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
     }
 
@@ -93,6 +82,7 @@ public class PlayerController : NetworkBehaviour
     private void OnEnable()
     {
         var map = InputSystem.actions;
+        map.Enable();
         map.FindAction("Move").performed += MoveActionPerformed;
         map.FindAction("Move").canceled += MoveActionCancelled;
         map.FindAction("Jump").performed += JumpActionPerformed;
@@ -104,6 +94,7 @@ public class PlayerController : NetworkBehaviour
         var move = map.FindAction("Move");
         if (move != null)
         {
+            //Debug.Log("Moving");
             move.performed -= MoveActionPerformed;
             move.canceled -= MoveActionCancelled;
         }
