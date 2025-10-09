@@ -11,16 +11,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Temp
-        ResetValues();
+        startNewGame.Invoke();
     }
 
-    public void EnterDialogue()
+    private void Update()
     {
-        player.inMenu = true;
+        gameInfo.currentTimer -= Time.deltaTime;
     }
 
     public void ResetValues()
     {
         startNewGame.Invoke();
+        gameInfo.ResetValues();
     }
 }

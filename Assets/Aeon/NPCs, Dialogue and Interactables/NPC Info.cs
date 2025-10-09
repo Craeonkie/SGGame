@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,32 +8,54 @@ public class NPCInfo : ScriptableObject
 {
     [SerializeField] private string NPCName;
     [Header("Dialogue")]
-    [SerializeField] private List<Dialogue> list;
-    public string currentDialogue;
+    [SerializeField] private List<Dialogue> initialList;
+    [SerializeField] private List<Dialogue> completeQuestList;
     private int currentDialogueIndex;
     [Header("Quest")]
-    [SerializeField] public bool hasQuest;
+    public bool hasQuest;
+    public Item requiredItem;
+    public bool finishedQuest;
+    private bool interactedWithOnce;
 
-    public void ProgressCurrentDialogue()
+    public bool ProgressCurrentDialogue()
     {
-        if (currentDialogueIndex < list.Count)
+        if (currentDialogueIndex < initialList.Count - 1 && !interactedWithOnce)
         {
             currentDialogueIndex += 1;
-            currentDialogue = list[currentDialogueIndex].dialogue; 
+            return true;
         }
+        else if (hasQuest)
+        {
+            if (currentDialogueIndex < completeQuestList.Count - 1 && interactedWithOnce)
+            {
+                currentDialogueIndex += 1;
+                return true;
+            }
+        }
+        interactedWithOnce = true;
+        currentDialogueIndex = 0;
+        return false;
+    }
+
+    public Dialogue ReturnCurrentDialogue()
+    {
+        if (hasQuest && interactedWithOnce)
+        {
+            return completeQuestList[currentDialogueIndex];
+        }
+        return initialList[currentDialogueIndex];
     }
 
     public void ResetValues()
     {
         currentDialogueIndex = 0;
-        currentDialogue = list[currentDialogueIndex].dialogue;
+        finishedQuest = false;
+        interactedWithOnce = false;
     }
 }
 
 [System.Serializable]
-struct Dialogue
+public struct Dialogue
 {
     public string dialogue;
-    [SerializeField] private bool goToNextDialogue;
-    [SerializeField] private bool continueDialogue;
 }

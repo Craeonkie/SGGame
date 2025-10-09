@@ -75,7 +75,17 @@ public class PlayerController : MonoBehaviour
             }
             myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x, myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
-        print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
+        //print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
+    }
+
+    public void EnterDialogue()
+    {
+        inMenu = true;
+    }
+
+    public void ExitDialogue()
+    {
+        inMenu = false;
     }
 
     // Movement Input

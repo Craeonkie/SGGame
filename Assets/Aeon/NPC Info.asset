@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
-  m_Name: Mambo NPC Info
+  m_Name: NPC Info
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
-  NPCName: Mambo
+  NPCName: 
   initialList:
-  - dialogue: Ei...
-  - dialogue: ei...
-  - dialogue: ...mun!
-  completeQuestList:
-  - dialogue: ehehehehe...
+  - dialogue: wgraefzwegwarghwasrhesharhwargwagerfafdsaf
+  completeQuestList: []
   hasQuest: 1
-  requiredItem: {fileID: 11400000, guid: e42c32bc41336aa489754da47bdcd561, type: 2}
-  finishedQuest: 1
+  requiredItem: {fileID: 11400000, guid: 165b03a8e65e2a8458698d47208edfbe, type: 2}
+  finishedQuest: 0

@@ -6,9 +6,11 @@ public class InteractionChecker : MonoBehaviour
 {
     [SerializeField] private string tagName;
     private List<Collider> _hitColliders;
+    private bool canInteract;
 
     private void Start()
     {
+        canInteract = true;
         _hitColliders = new();
     }
 
@@ -30,7 +32,7 @@ public class InteractionChecker : MonoBehaviour
 
     private void Interact(InputAction.CallbackContext ctx)
     {
-        if (_hitColliders.Count != 0)
+        if (_hitColliders.Count != 0 && canInteract)
         {
             Collider closestCollider = null;
             float minDistance = Mathf.Infinity;
@@ -51,7 +53,7 @@ public class InteractionChecker : MonoBehaviour
 
             if (closestCollider.TryGetComponent<BaseInteractable>(out var temp))
             {
-                temp.DoEvent();
+                temp.GetInteractedWith();
             }
             else
             {
@@ -60,7 +62,16 @@ public class InteractionChecker : MonoBehaviour
         }
     }
 
-    // Movement Input
+    public void EnableInteracting()
+    {
+        canInteract = true;
+    }
+    
+    public void DisableInteracting()
+    {
+        canInteract = false;
+    }
+
     private void OnEnable()
     {
         var map = InputSystem.actions;

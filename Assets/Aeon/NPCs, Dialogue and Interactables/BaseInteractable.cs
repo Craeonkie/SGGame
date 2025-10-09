@@ -3,10 +3,10 @@ using UnityEngine.Events;
 
 public class BaseInteractable : MonoBehaviour
 {
-    [SerializeField] private UnityEvent whenInteractedWith;
-    private bool interacted;
+    [SerializeField] protected UnityEvent whenInteractedWith;
+    protected bool interacted;
 
-    public void DoEvent()
+    public virtual void GetInteractedWith()
     {
         if (interacted == false)
         {
