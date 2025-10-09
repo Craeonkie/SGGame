@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpPower;
     [SerializeField] private float _dragWhileGrounded;
     [SerializeField] private float _dragWhileMoving;
+    [SerializeField] private GameObject _playerSprite;
+    public Animator _animator;
 
     //changes - jolin
     [SerializeField] private float _climbValue;
@@ -25,11 +27,14 @@ public class PlayerController : MonoBehaviour
     private bool _isJumping = false;
 
     //changes - jolin
+    [SerializeField] private float _holdTimer = 2f;
+    private float _holdCountdown;
     private bool _climb = false;
     private bool _drop = false;
     private bool _ifOnLedge = false;
     private bool _isInMud = false;
     private bool _isInWater = false;
+    private bool _isSpacePressed = false;
 
     [Header("For other scripts to access")]
     public bool _swing = false; //changes - jolin
@@ -40,15 +45,16 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
+        _holdCountdown = _holdTimer;
     }
 
     private void Update()
     {
-        Debug.Log("On ledge check: " + _ifOnLedge);
         // Jumping
         if (isGrounded && _isJumping && !inMenu)
         {
             myRigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _animator.SetTrigger("Jump");
         }
         _isJumping = false;
 
@@ -56,6 +62,8 @@ public class PlayerController : MonoBehaviour
         if (_climb && !inMenu && _ifOnLedge)
         {
             myRigidbody.AddForce(Vector3.up * _climbValue, ForceMode.Impulse);
+            _isSpacePressed = true;
+            _holdCountdown = _holdTimer;
         }
         _climb = false;
 
@@ -65,26 +73,43 @@ public class PlayerController : MonoBehaviour
             myRigidbody.AddForce(Vector3.up * -_dropValue, ForceMode.Impulse);
         }
         _drop = false;
+
     }
 
     private void FixedUpdate()
     {
         // Movement
-            //changes made here - jolin
+        //changes made here - jolin
+
+        if (_isSpacePressed)
+        {
+            myRigidbody.constraints &= ~RigidbodyConstraints.FreezePosition;
+            myRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+            _holdCountdown -= Time.deltaTime;
+
+            if (_holdCountdown <= 0)
+            {
+                _isSpacePressed = false;
+            }
+        }
+
         if (_isMoving && !inMenu)
         {
             float val;
-            if (_ifOnLedge)
+            if (_ifOnLedge && !_isSpacePressed)
             {
+                _animator.SetBool("isOnLedge", true);
                 val = 0;
-                //myRigidbody.constraints = RigidbodyConstraints.FreezePositionY;
-                myRigidbody.useGravity = false;
+                //myRigidbody.useGravity = false;
+                myRigidbody.constraints = RigidbodyConstraints.FreezePosition;
             }
             else
             {
+                _animator.SetBool("isOnLedge", false);
                 val = _acceleration;
-                //myRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-                myRigidbody.useGravity = true;
+                //myRigibody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                //myRigidbody.useGravity = true;
             }
 
             //check for mud / water
@@ -94,10 +119,15 @@ public class PlayerController : MonoBehaviour
             Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
             worldMoveDirection.Normalize();
             myRigidbody.linearVelocity += val * Time.fixedDeltaTime * worldMoveDirection;
+        }
 
-
-            //float speedInDir = Vector3.Dot(myRigidbody.linearVelocity, worldMoveDirection); // current velocity along that direction
-            //print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
+        if (myRigidbody.linearVelocity.x > 0)
+        {
+            _playerSprite.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else/* if (myRigidbody.linearVelocity.x > 0)*/
+        {
+            _playerSprite.transform.localScale = new Vector3(-1, 1, 1);
         }
 
         // Ground drag (slows horizontal velocity only)
@@ -105,15 +135,19 @@ public class PlayerController : MonoBehaviour
         {
             if (_isMoving)
             {
+                _animator.SetBool("isWalking", true);
                 myRigidbody.linearDamping = _dragWhileMoving;
             }
             else
             {
+                _animator.SetBool("isWalking", false);
                 myRigidbody.linearDamping = _dragWhileGrounded;
             }
+            _animator.SetBool("isGrounded", true);
         }
         else
         {
+            _animator.SetBool("isGrounded", false);
             myRigidbody.linearDamping = 0;
         }
 
@@ -200,6 +234,7 @@ public class PlayerController : MonoBehaviour
     private void climbActionPerformed(InputAction.CallbackContext ctx)
     {
         _climb = true;
+        _isSpacePressed = true;
     }
 
     private void dropActionPerformed(InputAction.CallbackContext ctx)

@@ -22,11 +22,11 @@ public class AtkCheck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("can swing: " + playerController._swing);
         if (playerController._swing)
         {
             atkCollider.enabled = true;
             timer -= Time.deltaTime;
+            playerController._animator.SetTrigger("Punch");
         }
 
         if (timer <= 0)
@@ -55,7 +55,6 @@ public class AtkCheck : MonoBehaviour
             {
                 other.GetComponent<Rigidbody>().AddForce(oppDir * pushForce, ForceMode.Impulse);
             }
-
         }
     }
 }
