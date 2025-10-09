@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
+  m_Name: Siti_NPC
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
+  NPCName: Siti
+  initialList:
+  - dialogue: 'You: Kak? (Big Sis?) You ok? You look sad.'
+  - dialogue: 'Siti: Ah- Hi. I left the house to buy veggies, but I forgot my wallet! '
+  - dialogue: 'You: Oh no!'
+  - dialogue: "Siti: I guess I\u2019ll just go home. No need to makan (eat) today. "
+  - dialogue: "You: You can come to mama\u2019s house for dinner today! We\u2019re
+      celebrating NDP tonight. "
+  - dialogue: "Siti: Oh, that\u2019s nice. But I still need veggies for tomorrow\u2026 "
+  - dialogue: "You: I\u2019ll help you grab your wallet! Just wait here! "
+  completeQuestList:
+  - dialogue: 'You: Kak, na! (Sis, here!) I got it!'
+  - dialogue: '[You pass her the wallet.]'
+  - dialogue: 'Siti: Ah, thank you! '
+  - dialogue: 'You: Promise to come later? '
+  - dialogue: "Siti: Yes I will! I\u2019ll bring something to share around too. Thank
+      you! "
+  - dialogue: '[Siti has been invited. (+1)]'
+  hasQuest: 1
+  requiredItem: {fileID: 11400000, guid: 701031ad0cefc9a4b8256bb4b81fb0de, type: 2}
+  finishedQuest: 0

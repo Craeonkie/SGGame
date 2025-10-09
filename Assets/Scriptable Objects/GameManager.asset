@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameManager
   m_EditorClassIdentifier: Assembly-CSharp::NewScriptableObjectScript
   maxTimer: 60
-  currentTimer: 0
+  currentTimer: 58.02125

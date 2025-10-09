@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
+  m_Name: Mom_NPC
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
+  NPCName: Mom
+  initialList:
+  - dialogue: "You: \u266A~"
+  - dialogue: 'Ma: Ah boy, you got a lot of free time right? Can help Ma with something?'
+  - dialogue: 'Ma: Tonight is NDP (National Day Parade). Ba wants to host a TV watching
+      party. Ma needs to cook. Can you help me gather the liao (ingredients) to cook? '
+  - dialogue: 'You: OK Ma! '
+  - dialogue: 'Ma: Good boy. Oh ya, can you also help me jio (invite) the neighbours? '
+  - dialogue: 'You: All of them?!'
+  - dialogue: "Ma: Ya lah. Don\u2019t want people feeling left out, right? Just ask
+      everyone, if they want come, then come lor. Don\u2019t want, don\u2019t come
+      lah. But we should invite everyone. "
+  - dialogue: 'You: The whole kampong?! '
+  - dialogue: 'Ma: Tsk. Abuden? (What else?) Just jio everyone. Confirm can one! '
+  - dialogue: "Ma: Na (Here). Here\u2019s a list to follow. Is that easier? "
+  - dialogue: 'Ma: Come back by 5, ya? '
+  completeQuestList: []
+  hasQuest: 0
+  requiredItem: {fileID: 11400000, guid: 701031ad0cefc9a4b8256bb4b81fb0de, type: 2}
+  finishedQuest: 0

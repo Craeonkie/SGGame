@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
+  m_Name: Pooja_NPC
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
+  NPCName: Abang and Nabil
+  initialList:
+  - dialogue: 'Pooja: Hi Ah boy!'
+  - dialogue: 'You: Hi Pooja!'
+  - dialogue: 'Pooja: Can you help me with something please? I need a Coconut. Can
+      you help me find one?'
+  - dialogue: 'You: Can!'
+  completeQuestList:
+  - dialogue: '[You give her the coconut.]'
+  - dialogue: 'You: Is this good?'
+  - dialogue: 'Pooja: Dey, (Yes), very good. Thank you.  '
+  - dialogue: 'You: Aunty Pooja, do you want to come to our house for dinner tonight?
+      Ma wants us all to watch NDP together. '
+  - dialogue: "Pooja: Oh! Haha, okay, I\u2019ll go see you and your mama later. See
+      you~! "
+  - dialogue: '[Pooja and Family have been invited. (+2)]'
+  hasQuest: 1
+  requiredItem: {fileID: 11400000, guid: a0d083f28dfe06844982c0a21216bc1d, type: 2}
+  finishedQuest: 0

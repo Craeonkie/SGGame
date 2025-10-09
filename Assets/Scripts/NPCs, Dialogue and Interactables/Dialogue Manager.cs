@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private UnityEvent endDialogue;
     private NPCInfo currentNPC;
     private Coroutine typingCoroutine;
-
+    
     public void EnterDialogue(NPCInfo NpcInfo)
     {
         currentNPC = NpcInfo;

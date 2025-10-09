@@ -9,6 +9,10 @@ public class Inventory : ScriptableObject
     public void ObtainItem(Item item)
     {
         items.Add(item);
+        foreach (var i in items)
+        {
+            i.isCollected = true;
+        }
     }
 
     public bool HasItem(Item item)
@@ -19,5 +23,9 @@ public class Inventory : ScriptableObject
     public void ResetValues()
     {
         items.Clear();
+        foreach (var i in items)
+        {
+            i.isCollected = false;
+        }
     }
 }

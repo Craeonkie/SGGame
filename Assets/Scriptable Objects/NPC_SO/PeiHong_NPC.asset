@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
+  m_Name: PeiHong_NPC
+  m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
+  NPCName: Pei Hong
+  initialList:
+  - dialogue: 'You: Peihong! Nihao! (Hi!) '
+  - dialogue: 'Pei Hong: Oh! Hello! '
+  - dialogue: "Pei Hong: I\u2019m looking for my doll. I can\u2019t find her anywhere!  "
+  - dialogue: 'You: Oh no!'
+  - dialogue: 'Pei Hong: Help me find her please!! '
+  - dialogue: "You: I\u2019ll help you find your doll if you come to our party later!
+      Come bring your family too!! "
+  - dialogue: 'Pei Hong: Oh!! Party? '
+  - dialogue: 'You: Yeah! Do you want to watch NDP today? You should come! '
+  - dialogue: 'Pei Hong: Okay! Can I bring my doll too? Help me find it! '
+  completeQuestList:
+  - dialogue: '[You Return the doll to Pei Hong.]'
+  - dialogue: 'You: Here you go! '
+  - dialogue: "Pei Hong: My doll!! Thank you sooooooo much! I\u2019ll come to your
+      party for sure! "
+  - dialogue: '[Peihong and Family have been invited. (+4)]'
+  hasQuest: 1
+  requiredItem: {fileID: 11400000, guid: 2ade2a2fb15de454fbd272010e3d0acd, type: 2}
+  finishedQuest: 0
