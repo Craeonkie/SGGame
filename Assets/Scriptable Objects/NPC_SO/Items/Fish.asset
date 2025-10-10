@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398ff9aef2e11a244af77d94e34eb278, type: 3}
   m_Name: Fish
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  itemName: Letter
+  itemName: Fish
   spawnLocation: {x: 0, y: 0, z: 0}
   isFoodItem: 1
+  isCollected: 0
