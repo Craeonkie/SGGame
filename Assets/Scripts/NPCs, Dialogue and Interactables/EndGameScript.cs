@@ -18,6 +18,8 @@ public class EndGameScript : MonoBehaviour
     [Header("Dialogue")]
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text dialogueText;
+    [SerializeField] private TMP_Text residentsInvited;
+    [SerializeField] private TMP_Text ingredientsCollected;
     [SerializeField] private float typingSpeed = 0.05f; // time between letters
     private List<Dialogue> dialogue;
     private Coroutine typingCoroutine;
@@ -35,14 +37,35 @@ public class EndGameScript : MonoBehaviour
     {
         if (!madeItHome)
         {
-            displayStatScreen.Invoke();
+            TallyResults();
         }
         else
         {
-            //if ()
-            //{
-            //    canPlayFullEnd = true;
-            //}
+            madeItHome = true;
+            bool npc; bool food;
+            if (_npcCounter > _npcs.Length / 2)
+            {
+                npc = true;
+            }
+            else
+            {
+                npc = false;
+            }
+
+            if (_foodCounter > _foodItems.Length / 2)
+            {
+                food = true;
+            }
+            else
+            {
+                food = false;
+            }
+
+            if (npc && food)
+            {
+                canPlayFullEnd = true;
+            }
+
             PlayEnding();
         }
     }
@@ -57,6 +80,14 @@ public class EndGameScript : MonoBehaviour
             }
         }
     }
+
+    public void TallyResults()
+    {
+        residentsInvited.text = _npcCounter.ToString();
+        ingredientsCollected.text = _foodCounter.ToString();
+        displayStatScreen.Invoke();
+    }
+
     public void CountFood()
     {
         _foodCounter = _inventory.items.Count;
@@ -98,16 +129,9 @@ public class EndGameScript : MonoBehaviour
         canPlayFullEnd = false;
     }
 
-    public void DisplayScoreboard()
-    {
-
-    }
-
     public void PlayEnding()
     {
         playEnding.Invoke();
-        CountFood();
-        CountNPCS();
         InitDialogue();
         EnterDialogue();
     }
@@ -173,7 +197,9 @@ public class EndGameScript : MonoBehaviour
                 }
                 else
                 {
-                    displayStatScreen.Invoke();
+                    residentsInvited.text = _npcCounter.ToString();
+                    ingredientsCollected.text = _foodCounter.ToString();
+                    TallyResults();
                 }
             }
             // otherwise, go to next dialogue

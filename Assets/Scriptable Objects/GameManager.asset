@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb4c7a0575789c04183ae570d62699ec, type: 3}
   m_Name: GameManager
   m_EditorClassIdentifier: Assembly-CSharp::NewScriptableObjectScript
-  maxTimer: 1
-  currentTimer: -0.00016613584
+  maxTimer: 90
+  currentTimer: -0.004674084
