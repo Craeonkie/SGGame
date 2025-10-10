@@ -514,6 +514,17 @@
                 },
                 {
                     "name": "",
+                    "id": "34b7ff7f-0d74-4356-8be0-ed9ba08393a2",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Climb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ec9bbac6-9999-431a-9ef8-005c6f3eb6d4",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -527,6 +538,17 @@
                     "name": "",
                     "id": "0bba5568-90f7-47bc-ac51-37153a15c22c",
                     "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a40def2-23a7-43ce-a908-2d80928bb0b6",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
