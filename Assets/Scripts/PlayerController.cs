@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     //changes - Yu Chi
     private bool _isStillInAir = false;
+    //new changes - Yu Chi
+    private bool _isStillOnLedge = false;
 
     [Header("For other scripts to access")]
     public bool _swing = false; //changes - jolin
@@ -269,11 +271,21 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ledge"))
         {
             _ifOnLedge = true;
+
+            //new changes - Yu Chi
+            if (!_isStillOnLedge)
+            {
+                audioSource.PlayOneShot(audioClip[8]);
+                _isStillOnLedge = true;
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
         _ifOnLedge = false;
+
+        //new changes - Yu Chi
+        _isStillOnLedge = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -310,6 +322,11 @@ public class PlayerController : MonoBehaviour
             audioSource.PlayOneShot(audioClip[6]);
         }
 
+        if (collision.gameObject.CompareTag("Bush"))
+        {
+            audioSource.PlayOneShot(audioClip[7]);
+        }
+
         if (!collision.gameObject.CompareTag("Mud") && (!collision.gameObject.CompareTag("Water")) && 
             (!collision.gameObject.CompareTag("Interactable")) && (!collision.gameObject.CompareTag("Ledge")))
         {
@@ -320,5 +337,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        //new changes - Yu Chi
+        if (collision.gameObject.CompareTag("Fence") || collision.gameObject.CompareTag("Tree"))
+        {
+            audioSource.PlayOneShot(audioClip[9]);
+        }
     }
 }
