@@ -7,4 +7,6 @@ public class Item : ScriptableObject
     public Vector3 spawnLocation;
     public bool isFoodItem;
     public bool isCollected;
+    [Header("End of game points")]
+    public int points;
 }

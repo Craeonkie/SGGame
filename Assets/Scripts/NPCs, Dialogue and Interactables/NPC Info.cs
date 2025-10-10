@@ -16,6 +16,8 @@ public class NPCInfo : ScriptableObject
     public Item requiredItem;
     public bool finishedQuest;
     private bool interactedWithOnce;
+    [Header("End of game points")]
+    public bool points;
 
     public bool ProgressCurrentDialogue()
     {
