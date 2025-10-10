@@ -45,9 +45,8 @@ public class PlayerController : MonoBehaviour
     public bool _swing = false; //changes - jolin
     public bool isGrounded = false;
     public bool limitSpeed = true;
-    public bool inDialogue = false;
     public bool inMenu = false;
-
+    
     //changes - Yu Chi
     private bool _isStillInAir = false;
     //new changes - Yu Chi
@@ -69,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Jumping
-        if (isGrounded && _isJumping && !inDialogue)
+        if (isGrounded && _isJumping && !inMenu)
         {
             myRigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
             _animator.SetTrigger("Jump");
@@ -77,7 +76,7 @@ public class PlayerController : MonoBehaviour
         _isJumping = false;
 
         //changes - jolin
-        if (_climb && !inDialogue && _ifOnLedge)
+        if (_climb && !inMenu && _ifOnLedge)
         {
             myRigidbody.AddForce(Vector3.up * _climbValue, ForceMode.Impulse);
             _isSpacePressed = true;
@@ -85,7 +84,7 @@ public class PlayerController : MonoBehaviour
         }
         _climb = false;
 
-        if (_drop && !inDialogue && _ifOnLedge)
+        if (_drop && !inMenu && _ifOnLedge)
         {
             //drop down
             myRigidbody.AddForce(Vector3.up * -_dropValue, ForceMode.Impulse);
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_isMoving && !inDialogue)
+        if (_isMoving && !inMenu)
         {
             float val;
             if (_ifOnLedge && !_isSpacePressed)
@@ -221,9 +220,9 @@ public class PlayerController : MonoBehaviour
         print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
     }
 
-    public void ToggleinDialogue(bool indialogue)
+    public void ToggleInMenu(bool indialogue)
     {
-        inDialogue = indialogue;
+        inMenu = indialogue;
     }
 
     // Movement Input

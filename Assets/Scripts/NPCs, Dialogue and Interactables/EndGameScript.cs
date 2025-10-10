@@ -1,7 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Video;
 
 public class EndGameScript : MonoBehaviour
 {
@@ -13,79 +16,172 @@ public class EndGameScript : MonoBehaviour
     [SerializeField] private Inventory _inventory;
 
     [Header("Dialogue")]
-    [SerializeField] private List<endGameDialogue> dialogue;
-    private int currentDialogueIndex;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text dialogueText;
+    [SerializeField] private float typingSpeed = 0.05f; // time between letters
+    private List<Dialogue> dialogue;
+    private Coroutine typingCoroutine;
+    private bool isTyping = false;
+    private int currentDialogueIndex = 0;
 
-    public bool ProgressCurrentDialogue()
+    [Header("Game End Cutscene")]
+    public UnityEvent playEnding;
+    public UnityEvent playFullEnd;
+    public UnityEvent displayStatScreen;
+    private bool madeItHome = false;
+    private bool canPlayFullEnd = false;
+
+    public void TriggerEnd()
     {
-        if (currentDialogueIndex < dialogue.Count - 1)
+        if (!madeItHome)
         {
-            currentDialogueIndex += 1;
-            return true;
+            displayStatScreen.Invoke();
         }
-        currentDialogueIndex = 0;
-        return false;
+        else
+        {
+            //if ()
+            //{
+            //    canPlayFullEnd = true;
+            //}
+            PlayEnding();
+        }
     }
 
-    public void initDialogue()
+    public void CountNPCS()
+    {
+        foreach (NPCSystem npc in _npcs)
+        {
+            if (npc.isJoining)
+            {
+                _npcCounter++;
+            }
+        }
+    }
+    public void CountFood()
+    {
+        _foodCounter = _inventory.items.Count;
+    }
+
+    public void InitDialogue()
     {
         if (_npcCounter > _npcs.Length / 2)
         {
-            addDialogueLine("Ma: Wow, you got the whole kampong ah?");
-            addDialogueLine("Ma: Good job!!");
+            dialogue.Add(new Dialogue("Wow, you got the whole kampong ah?", true));
+            dialogue.Add(new Dialogue("Good job!!", true));
         }
         else
         {
-            addDialogueLine("Ma: Mm... Not a lot of people leh..");
-            addDialogueLine("[Your mom sighs out in disappointment.]");
+            dialogue.Add(new Dialogue("Mm... Not a lot of people leh..", true));
+            dialogue.Add(new Dialogue("[Your mom sighs out in disappointment.]", true));
         }
 
         if (_foodCounter > _foodItems.Length / 2)
-            addDialogueLine("Ma: I managed to cook everything I needed to!");
+        {
+            dialogue.Add(new Dialogue("...I managed to cook everything I needed to!", true));
+        }
         else
-            addDialogueLine("Ma: Wah.. I didn't get to cook what they like..");
+        {
+            dialogue.Add(new Dialogue("Wah.. I didn't get to cook what they like..", true));
+        }
 
-        addDialogueLine("[You sat with your friends, chatting and playing.]");
-        addDialogueLine("Everyone: Happy National Day!!");
+        dialogue.Add(new Dialogue("[You sit with your friends, chatting and playing.]", false));
+        dialogue.Add(new Dialogue("Everyone: Happy National Day!!", false));
 
     }
 
     public void ResetValues()
     {
+        dialogue.Clear();
         currentDialogueIndex = 0;
         _foodCounter = 0;
         _npcCounter = 0;
+        canPlayFullEnd = false;
     }
 
-    //add a line in code
-    public void addDialogueLine(string line)
+    public void DisplayScoreboard()
     {
-        dialogue.Add(new endGameDialogue { dialogue = line});
+
     }
 
-    public endGameDialogue ReturnCurrentDialogue()
+    public void PlayEnding()
     {
-        return dialogue[currentDialogueIndex];
+        playEnding.Invoke();
+        CountFood();
+        CountNPCS();
+        InitDialogue();
+        EnterDialogue();
     }
-    public void countNPCS()
+
+    private void EnterDialogue()
     {
-        for (int i = 0; i < _npcs.Length; i++)
+        ShowLine();
+    }
+
+    private void ShowLine()
+    {
+        if (dialogue[currentDialogueIndex].isNPCSpeaking)
         {
-            if (_npcs[i].isJoining)
-                _npcCounter++;
+            nameText.text = "Mom";
+        }
+        else if (currentDialogueIndex == 7)
+        {
+            nameText.text = "Everyone";
+        }
+        else
+        {
+            nameText.text = "Ah boy";
+        }
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+
+        typingCoroutine = StartCoroutine(TypeText(dialogue[currentDialogueIndex].dialogue));
+    }
+
+    IEnumerator TypeText(string line)
+    {
+        isTyping = true;
+
+        dialogueText.text = "";
+        foreach (char c in line)
+        {
+            dialogueText.text += c;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+
+    public void PlayerClicksOnEndGameScreen()
+    {
+        if (isTyping)
+        {
+            // if mid-typing, instantly finish the line
+            StopCoroutine(typingCoroutine);
+            dialogueText.text = dialogue[currentDialogueIndex].dialogue;
+            isTyping = false;
+        }
+        else
+        {
+            if (currentDialogueIndex >= 7)
+            {
+                if (canPlayFullEnd)
+                {
+                    playFullEnd.Invoke();
+                }
+                else
+                {
+                    displayStatScreen.Invoke();
+                }
+            }
+            // otherwise, go to next dialogue
+            else
+            {
+                currentDialogueIndex++;
+                ShowLine();
+            }
         }
     }
-    public void countFood()
-    {
-        foreach (Item i in _inventory.items)
-        {
-            _foodCounter++;
-        }
-    }
-}
-
-[System.Serializable]
-public struct endGameDialogue
-{
-    public string dialogue;
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Door : BaseInteractable
 {
@@ -18,6 +17,7 @@ public class Door : BaseInteractable
 
     public override void GetInteractedWith()
     {
+        TeleportToDoor();
         whenInteractedWith.Invoke();
     }
 }
