@@ -32,16 +32,27 @@ public class PlayerController : MonoBehaviour
     private bool _isInWater = false;
     private bool _isSpacePressed = false;
 
+    //changes - Yu Chi
+    private bool _isStillInAir = false;
+
     [Header("For other scripts to access")]
     public bool _swing = false; //changes - jolin
     public bool isGrounded = false;
     public bool limitSpeed = true;
     public bool inMenu = false;
 
+    //changes - yu chi
+    [Header("Sound Effects")]
+    public AudioSource audioSource;
+    public AudioClip[] audioClip;
+
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
         _holdCountdown = _holdTimer;
+
+        //changes - Yu Chi
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -69,6 +80,13 @@ public class PlayerController : MonoBehaviour
             myRigidbody.AddForce(Vector3.up * -_dropValue, ForceMode.Impulse);
         }
         _drop = false;
+
+        //change - Yu Chi
+        if (!isGrounded && !_isStillInAir)
+        {
+            audioSource.PlayOneShot(audioClip[4]);
+            _isStillInAir = true;
+        }
 
     }
 
@@ -263,14 +281,44 @@ public class PlayerController : MonoBehaviour
 
         //if on mud and water, slower
         if (collision.gameObject.CompareTag("Mud"))
+        {
             _isInMud = true;
+
+            audioSource.PlayOneShot(audioClip[1]); //changes - Yu Chi
+        }
         else
             _isInMud = false;
 
         if (collision.gameObject.CompareTag("Water"))
+        {
+            //changes - Yu Chi
+            if (!_isInWater)
+                audioSource.PlayOneShot(audioClip[2]);
+            else
+                audioSource.PlayOneShot(audioClip[3]);
+
             _isInWater = true;
+            
+        }
         //if not, faster
         else
             _isInWater = false;
+
+        //changes - Yu Chi:
+        if (collision.gameObject.CompareTag("House"))
+        {
+            audioSource.PlayOneShot(audioClip[6]);
+        }
+
+        if (!collision.gameObject.CompareTag("Mud") && (!collision.gameObject.CompareTag("Water")) && 
+            (!collision.gameObject.CompareTag("Interactable")) && (!collision.gameObject.CompareTag("Ledge")))
+        {
+            if (isGrounded)
+            {
+                audioSource.PlayOneShot(audioClip[0]);
+                _isStillInAir = false;
+            }
+        }
+
     }
 }

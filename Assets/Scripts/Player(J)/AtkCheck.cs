@@ -12,6 +12,10 @@ public class AtkCheck : MonoBehaviour
     [SerializeField] private float pushForce;
     private float timer;
 
+    //changes - Yu Chi
+    //this is to not make the sound play so many times at once
+    bool _isPunching = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +31,13 @@ public class AtkCheck : MonoBehaviour
             atkCollider.enabled = true;
             timer -= Time.deltaTime;
             playerController._animator.SetTrigger("Punch");
+
+            //change - Yu Chi
+            if (!_isPunching)
+            {
+                playerController.audioSource.PlayOneShot(playerController.audioClip[5]);
+                _isPunching = true;
+            }
         }
 
         if (timer <= 0)
@@ -34,6 +45,8 @@ public class AtkCheck : MonoBehaviour
             timer = swingActiveTimer;
             atkCollider.enabled = false;
             playerController._swing = false;
+
+            _isPunching = false;
         }
     }
 

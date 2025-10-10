@@ -5,8 +5,8 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+  - enabled: 0
+    path: Assets/Yuchi/Scenes/StartScene.unity
     guid: 69a58aaa89af408419c2cfb9495fc3ee
   - enabled: 1
     path: Assets/Scenes/TemplateScene.unity
