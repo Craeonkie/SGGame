@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private TextMeshProUGUI NPCName;
+    [SerializeField] private string playerName;
     [SerializeField] private Inventory inventory;
     [SerializeField] private float typingSpeed = 0.05f; // time between letters
     [SerializeField] private UnityEvent beginDialogue;
@@ -23,6 +25,14 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowLine()
     {
+        if (currentNPC.ReturnCurrentDialogue().isNPCTalking)
+        {
+            NPCName.text = currentNPC.NPCName;
+        }
+        else
+        {
+            NPCName.text = playerName;
+        }
         if (typingCoroutine != null)
         {
             StopCoroutine(typingCoroutine);

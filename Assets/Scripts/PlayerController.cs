@@ -157,7 +157,11 @@ public class PlayerController : MonoBehaviour
             }
             myRigidbody.linearVelocity = new Vector3(horizontalVelocity.x, myRigidbody.linearVelocity.y, horizontalVelocity.z);
         }
-        print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
+        //print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
+        if (inMenu)
+        {
+            myRigidbody.linearVelocity = new Vector3(0, myRigidbody.linearVelocity.y, 0);
+        }
     }
 
     public void ToggleInMenu(bool inmenu)

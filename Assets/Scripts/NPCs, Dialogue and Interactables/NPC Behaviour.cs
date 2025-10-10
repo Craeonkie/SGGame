@@ -23,7 +23,7 @@ public class NPCSystem : BaseInteractable
 
     private void Update()
     {
-        //if they havent been invited:
+        //if they havent been invited or talked to:
         if (!isJoining)
         {
             // Display exclamation mark
