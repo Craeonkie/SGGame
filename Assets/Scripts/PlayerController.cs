@@ -288,7 +288,7 @@ public class PlayerController : MonoBehaviour
        // } }
 
 
-    //changes - jolin
+    //changes - jolin this whole thang
     private void OnCollisionEnter(Collision collision)
     {
 
@@ -321,4 +321,11 @@ public class PlayerController : MonoBehaviour
             _particleScripts.onGrass();
         }
     }
+
+    //added
+    public void ResetValues()
+    {
+        myRigidbody.linearVelocity = Vector3.zero;
+    }
+
 }
