@@ -87,6 +87,7 @@
 //}
 
 using NUnit.Framework.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -97,6 +98,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UnityEvent startNewGame;
     public bool endGame;
     public EndGameScript endGameScript;
+
+    //change
+    [SerializeField] private TMP_Text timerText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -115,8 +119,13 @@ public class GameManager : MonoBehaviour
         else
         {
             gameInfo.currentTimer -= Time.deltaTime;
+
+            //change - Yu Chi
+            timerText.text = " " + Mathf.Round(gameInfo.currentTimer).ToString();
         }
     }
+
+
 
     public void ResetValues()
     {
