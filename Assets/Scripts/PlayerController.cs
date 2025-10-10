@@ -273,4 +273,9 @@ public class PlayerController : MonoBehaviour
         else
             _isInWater = false;
     }
+
+    public void ResetValues()
+    {
+        myRigidbody.linearVelocity = Vector3.zero;
+    }
 }

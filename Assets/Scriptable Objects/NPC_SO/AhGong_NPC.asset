@@ -14,17 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Ah Gong
   initialList:
-  - dialogue: 'Ah Gong: Eh?'
-  - dialogue: 'You: Hello Ah Gong! '
+  - dialogue: Eh?
+    isNPCSpeaking: 1
+  - dialogue: 'Hello Ah Gong! '
+    isNPCSpeaking: 0
   - dialogue: '[You invite Ah Gong to your National Day Watch Party. ]'
-  - dialogue: 'Ah Gong: Tonight? OK. Your Ah Gong will be there. '
-  - dialogue: "Ah Gong: But boy ah, since you\u2019re out already, can you help me
-      deliver this? Give it to Atok down the road. Ok?  "
+    isNPCSpeaking: 0
+  - dialogue: 'Tonight? OK. Your Ah Gong will be there. '
+    isNPCSpeaking: 1
+  - dialogue: "But boy ah, since you\u2019re out already, can you help me deliver
+      this? Give it to Atok down the road. Ok?  "
+    isNPCSpeaking: 1
   - dialogue: '[Ah Gong passes you a letter.]'
-  - dialogue: 'You: Can! '
-  - dialogue: "Ah Gong: Zhen guai! (You\u2019re so good!)  "
-  - dialogue: '[Ah Gong has been invited. +1]'
+    isNPCSpeaking: 1
+  - dialogue: 'Can! '
+    isNPCSpeaking: 0
+  - dialogue: "Zhen guai! (You\u2019re so good!)  "
+    isNPCSpeaking: 1
+  - dialogue: '[Ah Gong has been invited. (+1)]'
+    isNPCSpeaking: 1
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 1

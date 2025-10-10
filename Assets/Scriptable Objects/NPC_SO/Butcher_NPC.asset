@@ -14,16 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Butcher
   initialList:
-  - dialogue: 'You: Auntie! Can I buy some meat?'
-  - dialogue: 'Butcher: Of course! Come choose what you want.'
+  - dialogue: Auntie! Can I buy some meat?
+    isNPCSpeaking: 0
+  - dialogue: Of course! Come choose what you want.
+    isNPCSpeaking: 1
   - dialogue: '[You hold out some coins.]'
+    isNPCSpeaking: 0
   - dialogue: '[Butcher hands you a bag of meat.]'
-  - dialogue: 'You: Thank you! By the way, are you free to join for dinner?'
-  - dialogue: 'Butcher: Hm? Why leh?'
-  - dialogue: 'You: My mom wants to invite everyone for NDP celebration!'
-  - dialogue: 'Butcher: Oh that''s nice! Of course!'
+    isNPCSpeaking: 1
+  - dialogue: Thank you! By the way, are you free to join for dinner?
+    isNPCSpeaking: 0
+  - dialogue: Hm? Why leh?
+    isNPCSpeaking: 1
+  - dialogue: My mom wants to invite everyone for NDP celebration!
+    isNPCSpeaking: 0
+  - dialogue: Oh that's nice! Of course!
+    isNPCSpeaking: 1
   - dialogue: '[Butcher will join the dinner. (+1)]'
+    isNPCSpeaking: 1
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 1

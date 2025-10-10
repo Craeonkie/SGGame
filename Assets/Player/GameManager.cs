@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameInfo gameInfo;
     [SerializeField] private PlayerController player;
     [SerializeField] private UnityEvent startNewGame;
+    [SerializeField] private TMP_Text timer;
+    [SerializeField] private Vector3 spawnPosition;
+    public bool updateTimer;
     public bool endGame;
     public EndGameScript endGameScript;
 
@@ -16,6 +20,7 @@ public class GameManager : MonoBehaviour
         // Temp
         startNewGame.Invoke();
     }
+
     private void Update()
     {
         if (gameInfo.currentTimer <= 0)
@@ -26,15 +31,37 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            gameInfo.currentTimer -= Time.deltaTime;
+            if (updateTimer)
+            {
+                gameInfo.currentTimer -= Time.deltaTime;
+                //timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + (Mathf.Floor(gameInfo.currentTimer % 60 * 10) / 10).ToString();
+                timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+            }
         }
     }
 
-    public void ResetValues()
+    public void ToggleTimer(bool temp)
     {
+        updateTimer = temp;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void RestartGame()
+    {
+        updateTimer = false;
         startNewGame.Invoke();
         gameInfo.ResetValues();
         endGame = false;
+        player.transform.position = spawnPosition;
     }
 
     private void gameEnded()

@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Interactable
+  - Box
+  - Water
+  - Mud
+  - Ledge
+  - Path
   layers:
   - Default
   - TransparentFX

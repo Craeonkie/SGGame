@@ -12,18 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
   m_Name: FishStall_NPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
-  NPCName: Siti
+  NPCName: Fisherman
   initialList:
-  - dialogue: 'You: One fish please!!'
+  - dialogue: One fish please!!
+    isNPCSpeaking: 0
   - dialogue: '[You hold out some coins.]'
-  - dialogue: 'Fisherman: Nah (Here).'
+    isNPCSpeaking: 0
+  - dialogue: Nah (Here).
+    isNPCSpeaking: 1
   - dialogue: '[He hands you a fish.]'
-  - dialogue: 'You: Thank you! By the way, are you free to join for dinner?'
-  - dialogue: 'Fisherman: Huh? Why leh?'
-  - dialogue: 'You: My mom wants to invite everyone for NDP celebration!'
-  - dialogue: 'Fisherman: Orhh... Can ah  can ah.'
+    isNPCSpeaking: 0
+  - dialogue: Thank you! By the way, are you free to join for dinner?
+    isNPCSpeaking: 0
+  - dialogue: Huh? Why leh?
+    isNPCSpeaking: 1
+  - dialogue: My mom wants to invite everyone for NDP celebration!
+    isNPCSpeaking: 0
+  - dialogue: Orhh... Can ah  can ah.
+    isNPCSpeaking: 1
   - dialogue: '[Fisherman will join the dinner. (+1)]'
+    isNPCSpeaking: 1
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 1

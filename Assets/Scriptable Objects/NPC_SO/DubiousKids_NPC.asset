@@ -15,9 +15,13 @@ MonoBehaviour:
   NPCName: Abang and Nabil
   initialList:
   - dialogue: 'Abang: He''ll never find it..!'
+    isNPCSpeaking: 1
   - dialogue: 'Nabil: Hehehehe! '
+    isNPCSpeaking: 1
   - dialogue: "[Seems like these siblings are causing trouble again\u2026]"
+    isNPCSpeaking: 0
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 0

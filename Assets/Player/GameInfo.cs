@@ -12,14 +12,6 @@ public class GameInfo : ScriptableObject
     [Header("Changing Values")]
     public float currentTimer;
 
-    //public void UpdateValues(float dt)
-    //{
-    //    if (_runTimer)
-    //        currentTimer -= dt;
-    //    else
-    //        ResetValues();
-    //}
-
     public void ResetValues()
     {
         currentTimer = maxTimer;

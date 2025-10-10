@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Chicken
   initialList:
-  - dialogue: 'Chicken: BOK BOK BOK!!!'
-  - dialogue: '[You snagged an egg from her.]'
-  - dialogue: 'Chicken: D:'
+  - dialogue: BOK BOK BOK!!!
+    isNPCSpeaking: 1
+  - dialogue: '[You snag an egg from her.]'
+    isNPCSpeaking: 0
+  - dialogue: 'D:'
+    isNPCSpeaking: 1
   completeQuestList:
   - dialogue: '[The chicken looks mad at you, best to stop talking to her.]'
-  hasQuest: 0
-  requiredItem: {fileID: 0}
+    isNPCSpeaking: 0
+  hasQuest: 1
+  requiredItem: {fileID: 11400000, guid: 1356deec894680d4f9f3f15e3399eaad, type: 2}
   finishedQuest: 0
+  points: 0

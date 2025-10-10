@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NPC Info", menuName = "Scriptable Objects/NPC Info")]
 public class NPCInfo : ScriptableObject
 {
-    [SerializeField] private string NPCName;
+    public string NPCName;
     [Header("Dialogue")]
     [SerializeField] private List<Dialogue> initialList;
     [SerializeField] private List<Dialogue> completeQuestList;
@@ -15,6 +15,7 @@ public class NPCInfo : ScriptableObject
     public bool hasQuest;
     public Item requiredItem;
     public bool finishedQuest;
+    public int points;
     private bool interactedWithOnce;
 
     public bool ProgressCurrentDialogue()
@@ -58,4 +59,5 @@ public class NPCInfo : ScriptableObject
 public struct Dialogue
 {
     public string dialogue;
+    public bool isNPCSpeaking;
 }

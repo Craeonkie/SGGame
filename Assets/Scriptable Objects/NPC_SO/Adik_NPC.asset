@@ -14,20 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Adik
   initialList:
-  - dialogue: "Adik: I lost him\u2026"
-  - dialogue: 'You: Lost who?'
-  - dialogue: "Adik: My Lion Man figure! All my allowance for two months\u2026 I
-      spent it all on him\u2026 and I can\u2019t find him! "
-  - dialogue: 'You: Oh no!'
-  - dialogue: "Adik: I\u2019m so sad\u2026"
-  - dialogue: "You: I\u2019ll help you find it!"
-  - dialogue: "Adik: Really?! Wah!!! You\u2019re so nice!!"
+  - dialogue: "I lost him\u2026"
+    isNPCSpeaking: 1
+  - dialogue: Lost who?
+    isNPCSpeaking: 0
+  - dialogue: "My Lion Man figure! All my allowance for two months\u2026 I spent
+      it all on him\u2026 and I can\u2019t find him! "
+    isNPCSpeaking: 1
+  - dialogue: Oh no!
+    isNPCSpeaking: 0
+  - dialogue: "I\u2019m so sad\u2026"
+    isNPCSpeaking: 1
+  - dialogue: "I\u2019ll help you find it!"
+    isNPCSpeaking: 1
+  - dialogue: "Really?! Wah!!! You\u2019re so nice!!"
+    isNPCSpeaking: 1
   completeQuestList:
   - dialogue: '[You give him the figure.]'
-  - dialogue: "Adik: You found him! He was right here! Sob\u2026 Terima kasih, Bang
-      (Thank you, bro)"
-  - dialogue: "You: You\u2019re welcome!!"
+    isNPCSpeaking: 0
+  - dialogue: "You found him! He was right here! Sob\u2026 Terima kasih, Bang (Thank
+      you, bro)"
+    isNPCSpeaking: 1
+  - dialogue: "You\u2019re welcome!!"
+    isNPCSpeaking: 0
   - dialogue: '[Adik and Family have been invited. (+4)]'
+    isNPCSpeaking: 1
   hasQuest: 1
   requiredItem: {fileID: 11400000, guid: f76c7961827e299408e2b5a8c5f7b78e, type: 2}
   finishedQuest: 0
+  points: 4

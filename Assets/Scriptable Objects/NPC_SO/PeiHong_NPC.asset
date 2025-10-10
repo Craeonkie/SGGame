@@ -14,22 +14,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Pei Hong
   initialList:
-  - dialogue: 'You: Peihong! Nihao! (Hi!) '
-  - dialogue: 'Pei Hong: Oh! Hello! '
-  - dialogue: "Pei Hong: I\u2019m looking for my doll. I can\u2019t find her anywhere!  "
-  - dialogue: 'You: Oh no!'
-  - dialogue: 'Pei Hong: Help me find her please!! '
-  - dialogue: "You: I\u2019ll help you find your doll if you come to our party later!
+  - dialogue: 'Pei Hong! Nihao! (Hi!) '
+    isNPCSpeaking: 0
+  - dialogue: 'Oh! Hello! '
+    isNPCSpeaking: 1
+  - dialogue: "I\u2019m looking for my doll. I can\u2019t find her anywhere!  "
+    isNPCSpeaking: 1
+  - dialogue: Oh no!
+    isNPCSpeaking: 0
+  - dialogue: 'Help me find her please!! '
+    isNPCSpeaking: 1
+  - dialogue: "I\u2019ll help you find your doll if you come to our party later!
       Come bring your family too!! "
-  - dialogue: 'Pei Hong: Oh!! Party? '
-  - dialogue: 'You: Yeah! Do you want to watch NDP today? You should come! '
-  - dialogue: 'Pei Hong: Okay! Can I bring my doll too? Help me find it! '
+    isNPCSpeaking: 0
+  - dialogue: 'Oh!! Party? '
+    isNPCSpeaking: 1
+  - dialogue: 'Yeah! Do you want to watch NDP today? You should come! '
+    isNPCSpeaking: 0
+  - dialogue: 'Okay! Can I bring my doll too? Help me find it! '
+    isNPCSpeaking: 1
   completeQuestList:
-  - dialogue: '[You Return the doll to Pei Hong.]'
-  - dialogue: 'You: Here you go! '
-  - dialogue: "Pei Hong: My doll!! Thank you sooooooo much! I\u2019ll come to your
-      party for sure! "
-  - dialogue: '[Peihong and Family have been invited. (+4)]'
+  - dialogue: '[You return the doll to Pei Hong.]'
+    isNPCSpeaking: 0
+  - dialogue: 'Here you go! '
+    isNPCSpeaking: 0
+  - dialogue: "My doll!! Thank you sooooooo much! I\u2019ll come to your party for
+      sure! "
+    isNPCSpeaking: 1
+  - dialogue: '[Pei Hong and Family have been invited. (+4)]'
+    isNPCSpeaking: 1
   hasQuest: 1
   requiredItem: {fileID: 11400000, guid: 2ade2a2fb15de454fbd272010e3d0acd, type: 2}
   finishedQuest: 0
+  points: 4

@@ -18,7 +18,9 @@ public class NPCSystem : BaseInteractable
 
         //scuffed way to check if they have item or nah
         if (_ItemHeld == null)
-            _ItemHeld = null;
+        {
+            _ItemHeld = null; 
+        }
     }
 
     private void Update()

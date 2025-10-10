@@ -14,22 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Siti
   initialList:
-  - dialogue: 'You: Kak? (Big Sis?) You ok? You look sad.'
-  - dialogue: 'Siti: Ah- Hi. I left the house to buy veggies, but I forgot my wallet! '
-  - dialogue: 'You: Oh no!'
-  - dialogue: "Siti: I guess I\u2019ll just go home. No need to makan (eat) today. "
-  - dialogue: "You: You can come to mama\u2019s house for dinner today! We\u2019re
-      celebrating NDP tonight. "
-  - dialogue: "Siti: Oh, that\u2019s nice. But I still need veggies for tomorrow\u2026 "
-  - dialogue: "You: I\u2019ll help you grab your wallet! Just wait here! "
+  - dialogue: Kak? (Big Sis?) You ok? You look sad.
+    isNPCSpeaking: 0
+  - dialogue: 'Ah- Hi. I left the house to buy veggies, but I forgot my wallet! '
+    isNPCSpeaking: 1
+  - dialogue: Oh no!
+    isNPCSpeaking: 0
+  - dialogue: "I guess I\u2019ll just go home. No need to makan (eat) today. "
+    isNPCSpeaking: 1
+  - dialogue: "You can come to mama\u2019s house for dinner today! We\u2019re celebrating
+      NDP tonight. "
+    isNPCSpeaking: 0
+  - dialogue: "Oh, that\u2019s nice. But I still need veggies for tomorrow\u2026 "
+    isNPCSpeaking: 1
+  - dialogue: "I\u2019ll help you grab your wallet! Just wait here! "
+    isNPCSpeaking: 0
   completeQuestList:
-  - dialogue: 'You: Kak, na! (Sis, here!) I got it!'
+  - dialogue: Kak, na! (Sis, here!) I got it!
+    isNPCSpeaking: 0
   - dialogue: '[You pass her the wallet.]'
-  - dialogue: 'Siti: Ah, thank you! '
-  - dialogue: 'You: Promise to come later? '
-  - dialogue: "Siti: Yes I will! I\u2019ll bring something to share around too. Thank
-      you! "
+    isNPCSpeaking: 0
+  - dialogue: 'Ah, thank you! '
+    isNPCSpeaking: 1
+  - dialogue: ' Promise to come later? '
+    isNPCSpeaking: 0
+  - dialogue: "Yes I will! I\u2019ll bring something to share around too. Thank you! "
+    isNPCSpeaking: 1
   - dialogue: '[Siti has been invited. (+1)]'
+    isNPCSpeaking: 1
   hasQuest: 1
   requiredItem: {fileID: 11400000, guid: 701031ad0cefc9a4b8256bb4b81fb0de, type: 2}
   finishedQuest: 0
+  points: 1

@@ -12,22 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
   m_Name: Pooja_NPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
-  NPCName: Abang and Nabil
+  NPCName: Pooja
   initialList:
-  - dialogue: 'Pooja: Hi Ah boy!'
-  - dialogue: 'You: Hi Pooja!'
-  - dialogue: 'Pooja: Can you help me with something please? I need a Coconut. Can
-      you help me find one?'
-  - dialogue: 'You: Can!'
+  - dialogue: Hi Ah boy!
+    isNPCSpeaking: 1
+  - dialogue: Hi Pooja!
+    isNPCSpeaking: 0
+  - dialogue: Can you help me with something please? I need a Coconut. Can you help
+      me find one?
+    isNPCSpeaking: 1
+  - dialogue: Can!
+    isNPCSpeaking: 0
   completeQuestList:
   - dialogue: '[You give her the coconut.]'
+    isNPCSpeaking: 0
   - dialogue: 'You: Is this good?'
-  - dialogue: 'Pooja: Dey, (Yes), very good. Thank you.  '
+    isNPCSpeaking: 0
+  - dialogue: 'Dey, (Yes), very good. Thank you.  '
+    isNPCSpeaking: 1
   - dialogue: 'You: Aunty Pooja, do you want to come to our house for dinner tonight?
       Ma wants us all to watch NDP together. '
+    isNPCSpeaking: 0
   - dialogue: "Pooja: Oh! Haha, okay, I\u2019ll go see you and your mama later. See
       you~! "
-  - dialogue: '[Pooja and Family have been invited. (+2)]'
+    isNPCSpeaking: 1
+  - dialogue: '[Pooja and Family have been invited. (+3)]'
+    isNPCSpeaking: 1
   hasQuest: 1
   requiredItem: {fileID: 11400000, guid: a0d083f28dfe06844982c0a21216bc1d, type: 2}
   finishedQuest: 0
+  points: 3

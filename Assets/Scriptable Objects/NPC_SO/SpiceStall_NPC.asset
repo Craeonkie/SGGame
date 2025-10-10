@@ -14,16 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Grocer
   initialList:
-  - dialogue: 'Grocer: Welcome Ah boy!'
-  - dialogue: 'You: I''d like to buy some spices please!!'
+  - dialogue: Welcome Ah boy!
+    isNPCSpeaking: 1
+  - dialogue: I'd like to buy some spices please!!
+    isNPCSpeaking: 0
   - dialogue: '[You hold out some coins.]'
+    isNPCSpeaking: 0
   - dialogue: '[He hands you a few bags of spice.]'
-  - dialogue: 'You: Thank you! By the way, are you free to join for dinner?'
-  - dialogue: 'Grocer: Oh?'
-  - dialogue: 'You: My mom wants to invite everyone for NDP celebration!'
-  - dialogue: 'Grocer: Oooohhh! Of course I''ll join.'
+    isNPCSpeaking: 1
+  - dialogue: Thank you! By the way, are you free to join for dinner?
+    isNPCSpeaking: 0
+  - dialogue: Oh?
+    isNPCSpeaking: 1
+  - dialogue: My mom wants to invite everyone for NDP celebration!
+    isNPCSpeaking: 0
+  - dialogue: Oooohhh! Of course I'll join.
+    isNPCSpeaking: 1
   - dialogue: '[Grocer will join the dinner. (+1)]'
+    isNPCSpeaking: 1
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 1

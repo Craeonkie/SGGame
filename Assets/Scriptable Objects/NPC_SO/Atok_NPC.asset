@@ -14,20 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Atok
   initialList:
-  - dialogue: 'You: Hi Atok!'
-  - dialogue: 'Atok: Boy, can you go find your Ah Gong for me?'
-  - dialogue: 'You: Eh? Why leh?'
-  - dialogue: 'Atok: He wanted to pass me something.'
-  - dialogue: 'You: Okay!'
+  - dialogue: Hi Atok!
+    isNPCSpeaking: 0
+  - dialogue: Boy, can you go find your Ah Gong for me?
+    isNPCSpeaking: 1
+  - dialogue: Eh? Why leh?
+    isNPCSpeaking: 0
+  - dialogue: He wanted to pass me something.
+    isNPCSpeaking: 1
+  - dialogue: Okay!
+    isNPCSpeaking: 0
   completeQuestList:
-  - dialogue: 'Atok: Boy? Is that you?'
-  - dialogue: 'You: Hi Atok! Ah Gong wanted to pass you this letter!'
+  - dialogue: Boy? Is that you?
+    isNPCSpeaking: 1
+  - dialogue: Hi Atok! Ah Gong wanted to pass you this letter!
+    isNPCSpeaking: 0
   - dialogue: '[You hand him the letter.]'
-  - dialogue: 'Atok: Oh!!!! Terima kasih. (Thank you.) '
-  - dialogue: 'You: Oh ya! Atok, Ma wants you to come over and watch NDP together. '
-  - dialogue: "Atok: National Day! You know, I still remember the war\u2026 Good
-      that we own our own country now! Majulah Singapura! (Onward Singapore!) Hahaha. "
-  - dialogue: '[ATOK has been invited.]'
+    isNPCSpeaking: 0
+  - dialogue: 'Oh!!!! Terima kasih. (Thank you.) '
+    isNPCSpeaking: 1
+  - dialogue: 'Oh ya! Atok, Ma wants you to come over and watch NDP together. '
+    isNPCSpeaking: 0
+  - dialogue: "National Day! You know, I still remember the war\u2026 Good that we
+      own our own country now! Majulah Singapura! (Onward Singapore!) Hahaha. "
+    isNPCSpeaking: 1
+  - dialogue: '[Atok has been invited. (+1)]'
+    isNPCSpeaking: 1
   hasQuest: 1
   requiredItem: {fileID: 11400000, guid: 3b016b5562f163a4d8a9aff30295cb37, type: 2}
   finishedQuest: 0
+  points: 1

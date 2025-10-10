@@ -14,21 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
   NPCName: Mom
   initialList:
-  - dialogue: "You: \u266A~"
-  - dialogue: 'Ma: Ah boy, you got a lot of free time right? Can help Ma with something?'
-  - dialogue: 'Ma: Tonight is NDP (National Day Parade). Ba wants to host a TV watching
+  - dialogue: "\u266A~"
+    isNPCSpeaking: 0
+  - dialogue: Ah boy, you got a lot of free time right? Can help Ma with something?
+    isNPCSpeaking: 1
+  - dialogue: 'Tonight is NDP (National Day Parade). Ba wants to host a TV watching
       party. Ma needs to cook. Can you help me gather the liao (ingredients) to cook? '
-  - dialogue: 'You: OK Ma! '
-  - dialogue: 'Ma: Good boy. Oh ya, can you also help me jio (invite) the neighbours? '
-  - dialogue: 'You: All of them?!'
-  - dialogue: "Ma: Ya lah. Don\u2019t want people feeling left out, right? Just ask
-      everyone, if they want come, then come lor. Don\u2019t want, don\u2019t come
-      lah. But we should invite everyone. "
-  - dialogue: 'You: The whole kampong?! '
-  - dialogue: 'Ma: Tsk. Abuden? (What else?) Just jio everyone. Confirm can one! '
-  - dialogue: "Ma: Na (Here). Here\u2019s a list to follow. Is that easier? "
-  - dialogue: 'Ma: Come back by 5, ya? '
+    isNPCSpeaking: 1
+  - dialogue: 'OK Ma! '
+    isNPCSpeaking: 0
+  - dialogue: 'Good boy. Oh ya, can you also help me jio (invite) the neighbours? '
+    isNPCSpeaking: 1
+  - dialogue: All of them?!
+    isNPCSpeaking: 0
+  - dialogue: "Ya lah. Don\u2019t want people feeling left out, right? Just ask everyone,
+      if they want come, then come lor. Don\u2019t want, don\u2019t come lah. But
+      we should invite everyone. "
+    isNPCSpeaking: 1
+  - dialogue: 'The whole kampong?! '
+    isNPCSpeaking: 0
+  - dialogue: 'Tsk. Abuden? (What else?) Just jio everyone. Confirm can one! '
+    isNPCSpeaking: 1
+  - dialogue: "Na (Here). Here\u2019s a list to follow. Is that easier? "
+    isNPCSpeaking: 1
+  - dialogue: 'Come back by 5, ya? '
+    isNPCSpeaking: 0
   completeQuestList: []
   hasQuest: 0
-  requiredItem: {fileID: 11400000, guid: 701031ad0cefc9a4b8256bb4b81fb0de, type: 2}
+  requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 0

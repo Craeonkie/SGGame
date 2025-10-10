@@ -12,19 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ddd7160ac085648a64e8152e79d0cd, type: 3}
   m_Name: VeggieStall_NPC
   m_EditorClassIdentifier: Assembly-CSharp::NPCInfo
-  NPCName: Ahma
+  NPCName: Ah Ma
   initialList:
-  - dialogue: 'Ah Ma: Ah boy ah, you want to buy veggies?'
-  - dialogue: 'You: Yes please!!!'
+  - dialogue: Ah boy ah, you want to buy veggies?
+    isNPCSpeaking: 1
+  - dialogue: Yes please!!!
+    isNPCSpeaking: 0
   - dialogue: '[You hold out some coins.]'
-  - dialogue: 'Ah Ma: Guai (Good boy)! Na (Here), take!'
+    isNPCSpeaking: 0
+  - dialogue: Guai (Good boy)! Na (Here), take!
+    isNPCSpeaking: 1
   - dialogue: '[She hands you some vegetables.]'
-  - dialogue: 'You: Thank you! By the way, are you free to join for dinner?'
-  - dialogue: 'Ah Ma: Can, can! Why eh?'
-  - dialogue: 'You: My mom wants to invite everyone for NDP celebration!'
-  - dialogue: 'Ah Ma: Ohhhh!  Can!'
-  - dialogue: '[Ah Ma will join the dinner. (+1)]'
+    isNPCSpeaking: 1
+  - dialogue: Thank you! By the way, are you free to join for dinner?
+    isNPCSpeaking: 0
+  - dialogue: Can, can! Why eh?
+    isNPCSpeaking: 1
+  - dialogue: My mom wants to invite everyone for NDP celebration!
+    isNPCSpeaking: 0
+  - dialogue: Ohhhh! Can!
+    isNPCSpeaking: 1
+  - dialogue: '[Ah Ma will join for dinner. (+1)]'
+    isNPCSpeaking: 1
   completeQuestList: []
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
+  points: 1
