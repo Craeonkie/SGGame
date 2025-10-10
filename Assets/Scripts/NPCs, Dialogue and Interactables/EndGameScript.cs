@@ -45,7 +45,7 @@ public class EndGameScript : MonoBehaviour
         else
             addDialogueLine("Ma: Wah.. I didn't get to cook what they like..");
 
-        addDialogueLine("[You sit with your friends, chatting and playing.]");
+        addDialogueLine("[You sat with your friends, chatting and playing.]");
         addDialogueLine("Everyone: Happy National Day!!");
 
     }
