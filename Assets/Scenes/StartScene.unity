@@ -1356,7 +1356,7 @@ GameObject:
   - component: {fileID: 551285574}
   - component: {fileID: 551285573}
   m_Layer: 5
-  m_Name: Solo Description
+  m_Name: Play Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2898,7 +2898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1119657663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3001,7 +3001,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119657662}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -4363,7 +4363,7 @@ GameObject:
   - component: {fileID: 1971179854}
   - component: {fileID: 1971179853}
   m_Layer: 5
-  m_Name: Join Description
+  m_Name: Controls Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
