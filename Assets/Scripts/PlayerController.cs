@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dragWhileGrounded;
     [SerializeField] private float _dragWhileMoving;
     [SerializeField] private GameObject _playerSprite;
+    [SerializeField] private LedgeClimbScript _ledgeClimb;
     public Animator _animator;
 
     //changes - jolin
@@ -21,6 +22,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveDirection = Vector3.zero;
     private bool _isMoving = false;
     private bool _isJumping = false;
+
+    //new changes - jolin
+    [SerializeField] private Collider ledgeChecker;
+    [SerializeField] private ParticleScript _particleScripts;
+    [SerializeField] private GameObject _particle;
 
     //changes - jolin
     [SerializeField] private float _holdTimer = 2f;
@@ -36,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public bool _swing = false; //changes - jolin
     public bool isGrounded = false;
     public bool limitSpeed = true;
+    public bool inDialogue = false;
     public bool inMenu = false;
 
     private void Start()
@@ -47,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // Jumping
-        if (isGrounded && _isJumping && !inMenu)
+        if (isGrounded && _isJumping && !inDialogue)
         {
             myRigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
             _animator.SetTrigger("Jump");
@@ -55,7 +62,7 @@ public class PlayerController : MonoBehaviour
         _isJumping = false;
 
         //changes - jolin
-        if (_climb && !inMenu && _ifOnLedge)
+        if (_climb && !inDialogue && _ifOnLedge)
         {
             myRigidbody.AddForce(Vector3.up * _climbValue, ForceMode.Impulse);
             _isSpacePressed = true;
@@ -63,13 +70,23 @@ public class PlayerController : MonoBehaviour
         }
         _climb = false;
 
-        if (_drop && !inMenu && _ifOnLedge)
+        if (_drop && !inDialogue && _ifOnLedge)
         {
             //drop down
             myRigidbody.AddForce(Vector3.up * -_dropValue, ForceMode.Impulse);
         }
         _drop = false;
 
+        if (_ledgeClimb.ifOnLedge)
+        {
+            _animator.SetBool("isOnLedge", true);
+            _ifOnLedge = true;
+        }
+        else
+        {
+            _animator.SetBool("isOnLedge", false);
+            _ifOnLedge = false;
+        }
     }
 
     private void FixedUpdate()
@@ -90,29 +107,36 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_isMoving && !inMenu)
+        if (_isMoving && !inDialogue)
         {
             float val;
             if (_ifOnLedge && !_isSpacePressed)
             {
-                _animator.SetBool("isOnLedge", true);
                 val = 0;
                 //myRigidbody.useGravity = false;
                 myRigidbody.constraints = RigidbodyConstraints.FreezePosition;
             }
             else
             {
-                _animator.SetBool("isOnLedge", false);
                 val = _acceleration;
                 //myRigibody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 //myRigidbody.useGravity = true;
             }
 
             //check for mud / water
-            if (_isInMud) val = 5;
-            if (_isInWater) val = 8;
+            if (_isInMud) 
+            { 
+                val = 5;
+                _particleScripts.onMud();
+            }
+            else if (_isInWater)
+            {
+                val = 8;
+                _particleScripts.onWater();
+            }
+            else  val = _acceleration;
 
-            Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
+                Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
             worldMoveDirection.Normalize();
             myRigidbody.linearVelocity += val * Time.fixedDeltaTime * worldMoveDirection;
         }
@@ -120,10 +144,12 @@ public class PlayerController : MonoBehaviour
         if (myRigidbody.linearVelocity.x > 0)
         {
             _playerSprite.transform.localScale = new Vector3(1, 1, 1);
+            _particleScripts.flipParticle(0);
         }
         else/* if (myRigidbody.linearVelocity.x > 0)*/
         {
             _playerSprite.transform.localScale = new Vector3(-1, 1, 1);
+            _particleScripts.flipParticle(180);
         }
 
         // Ground drag (slows horizontal velocity only)
@@ -131,14 +157,16 @@ public class PlayerController : MonoBehaviour
         {
             if (_isMoving)
             {
-                print("iyvyid");
+                //print("iyvyid");
                 _animator.SetBool("isWalking", true);
                 myRigidbody.linearDamping = _dragWhileMoving;
+                _particle.gameObject.SetActive(true);
             }
             else
             {
                 _animator.SetBool("isWalking", false);
                 myRigidbody.linearDamping = _dragWhileGrounded;
+                _particle.gameObject.SetActive(false);
             }
             _animator.SetBool("isGrounded", true);
         }
@@ -160,9 +188,9 @@ public class PlayerController : MonoBehaviour
         print("Speed In Direction: " + myRigidbody.linearVelocity.magnitude);
     }
 
-    public void ToggleInMenu(bool inmenu)
+    public void ToggleinDialogue(bool indialogue)
     {
-        inMenu = inmenu;
+        inDialogue = indialogue;
     }
 
     // Movement Input
@@ -246,31 +274,51 @@ public class PlayerController : MonoBehaviour
         _swing = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            _ifOnLedge = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        _ifOnLedge = false;
-    }
+    //CHANGES - JOLIN remoev the trigger enter entirely
+       //{ private void OnTriggerEnter(Collider other)
+       // {
+       //     if (_ledgeClimb.ifOnLedge)
+       //     {
+       //         _ifOnLedge = true;
+       //     }
+       // }
+       // private void OnTriggerExit(Collider other)
+       // {
+       //     _ifOnLedge = false;
+       // } }
 
+
+    //changes - jolin
     private void OnCollisionEnter(Collision collision)
     {
 
         //if on mud and water, slower
         if (collision.gameObject.CompareTag("Mud"))
+        { 
             _isInMud = true;
-        else
+        }
+        //if not, faster
+        else 
+        { 
             _isInMud = false;
+        }
 
         if (collision.gameObject.CompareTag("Water"))
+        {
             _isInWater = true;
-        //if not, faster
+        }
         else
+        {
             _isInWater = false;
+        }
+        
+        if (collision.gameObject.CompareTag("Path"))
+        {
+            _particleScripts.onDirt();
+        }
+        else
+        {
+            _particleScripts.onGrass();
+        }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8735067381825981905}
   m_Layer: 0
   m_Name: LeftDirt
-  m_TagString: Untagged
+  m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
