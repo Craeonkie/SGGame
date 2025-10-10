@@ -15,6 +15,8 @@ TagManager:
   - Bush
   - ExitHome
   - EnterHome
+  - Tree
+  - Fence
   layers:
   - Default
   - TransparentFX

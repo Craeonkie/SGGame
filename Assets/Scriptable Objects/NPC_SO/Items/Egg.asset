@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Egg
   spawnLocation: {x: 3.41, y: -0.48, z: 15.6}
   isFoodItem: 1
+  isCollected: 0

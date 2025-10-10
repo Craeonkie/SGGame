@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dragWhileMoving;
     [SerializeField] private GameObject _playerSprite;
     [SerializeField] private LedgeClimbScript _ledgeClimb;
-    [SerializeField] private HouseManager _houseManager;
+    //[SerializeField] private HouseManager _houseManager;
     public Animator _animator;
 
     //changes - jolin
@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
 
     //changes - Yu Chi
     private bool _isStillInAir = false;
+    //new changes - Yu Chi
+    private bool _isStillOnLedge = false;
+
     //changes - yu chi
     [Header("Sound Effects")]
     public AudioSource audioSource;
@@ -196,12 +199,12 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetBool("isWalking", false);
                 myRigidbody.linearDamping = _dragWhileGrounded;
-                _particle.gameObject.SetActive(false);
             }
             _animator.SetBool("isGrounded", true);
         }
         else
         {
+            _particle.gameObject.SetActive(false);
             _animator.SetBool("isGrounded", false);
             myRigidbody.linearDamping = 0;
         }
@@ -315,45 +318,67 @@ public class PlayerController : MonoBehaviour
         _interact = true;
     }
 
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (_interactTimer > 0)
+    //    {
+    //        if (_interact)
+    //        {
+    //            if (other.gameObject.CompareTag("EnterHome"))
+    //            {
+    //                if (other.gameObject.name == "1")
+    //                {
+    //                    _houseManager.enterHouse(0);
+    //                }
+    //                if (other.gameObject.name == "2")
+    //                {
+    //                    _houseManager.enterHouse(1);
+    //                }
+    //                if (other.gameObject.name == "3")
+    //                {
+    //                    _houseManager.enterHouse(2);
+    //                }
+    //            }
+    //            if (other.gameObject.CompareTag("ExitHouse"))
+    //            {
+    //                if (other.gameObject.name == "1")
+    //                {
+    //                    _houseManager.exitHouse(0);
+    //                }
+    //                if (other.gameObject.name == "2")
+    //                {
+    //                    _houseManager.exitHouse(1);
+    //                }
+    //                if (other.gameObject.name == "3")
+    //                {
+    //                    _houseManager.exitHouse(2);
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //}
+
     private void OnTriggerEnter(Collider other)
     {
-        if (_interactTimer > 0)
+        if (other.gameObject.CompareTag("Ledge"))
         {
-            if (_interact)
+            _ifOnLedge = true;
+
+            //new changes - Yu Chi
+            if (!_isStillOnLedge)
             {
-                if (other.gameObject.CompareTag("EnterHome"))
-                {
-                    if (other.gameObject.name == "1")
-                    {
-                        _houseManager.enterHouse(0);
-                    }
-                    if (other.gameObject.name == "2")
-                    {
-                        _houseManager.enterHouse(1);
-                    }
-                    if (other.gameObject.name == "3")
-                    {
-                        _houseManager.enterHouse(2);
-                    }
-                }
-                if (other.gameObject.CompareTag("ExitHouse"))
-                {
-                    if (other.gameObject.name == "1")
-                    {
-                        _houseManager.exitHouse(0);
-                    }
-                    if (other.gameObject.name == "2")
-                    {
-                        _houseManager.exitHouse(1);
-                    }
-                    if (other.gameObject.name == "3")
-                    {
-                        _houseManager.exitHouse(2);
-                    }
-                }
+                audioSource.PlayOneShot(audioClip[8]);
+                _isStillOnLedge = true;
             }
         }
-        
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        _ifOnLedge = false;
+
+        //new changes - Yu Chi
+        _isStillOnLedge = false;
     }
 
     //changes - jolin this whole thang
@@ -403,6 +428,11 @@ public class PlayerController : MonoBehaviour
             }
             else
                 _particleScripts.onDirt();
+        }
+        //new changes - Yu Chi
+        if (collision.gameObject.CompareTag("Fence") || collision.gameObject.CompareTag("Tree"))
+        {
+            audioSource.PlayOneShot(audioClip[9]);
         }
     }
 

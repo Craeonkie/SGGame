@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Vegetables
   spawnLocation: {x: 0, y: 0, z: 0}
   isFoodItem: 1
-  isCollected: 1
+  isCollected: 0

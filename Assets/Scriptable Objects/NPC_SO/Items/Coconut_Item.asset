@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   itemName: Coconut_Item
   spawnLocation: {x: 73.01, y: 2.76, z: -120.82}
+  isFoodItem: 0
+  isCollected: 0
