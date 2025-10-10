@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _dragWhileMoving;
     [SerializeField] private GameObject _playerSprite;
     [SerializeField] private LedgeClimbScript _ledgeClimb;
+    [SerializeField] private HouseManager _houseManager;
     public Animator _animator;
 
     //changes - jolin
@@ -37,6 +38,8 @@ public class PlayerController : MonoBehaviour
     private bool _isInMud = false;
     private bool _isInWater = false;
     private bool _isSpacePressed = false;
+    private bool _interact = false;
+    private float _interactTimer = 1f;
 
     [Header("For other scripts to access")]
     public bool _swing = false; //changes - jolin
@@ -45,10 +48,19 @@ public class PlayerController : MonoBehaviour
     public bool inDialogue = false;
     public bool inMenu = false;
 
+    //changes - Yu Chi
+    private bool _isStillInAir = false;
+    //changes - yu chi
+    [Header("Sound Effects")]
+    public AudioSource audioSource;
+    public AudioClip[] audioClip;
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
         _holdCountdown = _holdTimer;
+
+        //changes - Yu Chi
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -87,6 +99,24 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isOnLedge", false);
             _ifOnLedge = false;
         }
+
+        //change - Yu Chi
+        if (!isGrounded && !_isStillInAir)
+        {
+            audioSource.PlayOneShot(audioClip[4]);
+            _isStillInAir = true;
+        }
+
+        if (_interact)
+        {
+            _interactTimer -= Time.deltaTime;
+            if (_interactTimer < 0)
+            {
+                _interactTimer = 0.5f;
+                _interact = false;
+            }
+        }
+
     }
 
     private void FixedUpdate()
@@ -206,6 +236,7 @@ public class PlayerController : MonoBehaviour
         map.FindAction("Climb").performed += climbActionPerformed;
         map.FindAction("JumpDown").performed += dropActionPerformed;
         map.FindAction("Swing").performed += swingActionPerformed;
+        map.FindAction("Interact").performed += interactActionPerformed;
     }
 
     private void OnDisable()
@@ -238,6 +269,11 @@ public class PlayerController : MonoBehaviour
         if (swing != null)
         {
             swing.performed -= swingActionPerformed;
+        }
+        var interact = map.FindAction("Interact");
+        if (interact != null)
+        {
+            interact.performed -= interactActionPerformed;
         }
     }
 
@@ -274,19 +310,51 @@ public class PlayerController : MonoBehaviour
         _swing = true;
     }
 
-    //CHANGES - JOLIN remoev the trigger enter entirely
-       //{ private void OnTriggerEnter(Collider other)
-       // {
-       //     if (_ledgeClimb.ifOnLedge)
-       //     {
-       //         _ifOnLedge = true;
-       //     }
-       // }
-       // private void OnTriggerExit(Collider other)
-       // {
-       //     _ifOnLedge = false;
-       // } }
+    private void interactActionPerformed(InputAction.CallbackContext ctx)
+    {
+        _interact = true;
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_interactTimer > 0)
+        {
+            if (_interact)
+            {
+                if (other.gameObject.CompareTag("EnterHome"))
+                {
+                    if (other.gameObject.name == "1")
+                    {
+                        _houseManager.enterHouse(0);
+                    }
+                    if (other.gameObject.name == "2")
+                    {
+                        _houseManager.enterHouse(1);
+                    }
+                    if (other.gameObject.name == "3")
+                    {
+                        _houseManager.enterHouse(2);
+                    }
+                }
+                if (other.gameObject.CompareTag("ExitHouse"))
+                {
+                    if (other.gameObject.name == "1")
+                    {
+                        _houseManager.exitHouse(0);
+                    }
+                    if (other.gameObject.name == "2")
+                    {
+                        _houseManager.exitHouse(1);
+                    }
+                    if (other.gameObject.name == "3")
+                    {
+                        _houseManager.exitHouse(2);
+                    }
+                }
+            }
+        }
+        
+    }
 
     //changes - jolin this whole thang
     private void OnCollisionEnter(Collision collision)
@@ -296,6 +364,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Mud"))
         { 
             _isInMud = true;
+            audioSource.PlayOneShot(audioClip[1]); //changes - Yu Chi
         }
         //if not, faster
         else 
@@ -305,20 +374,35 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Water"))
         {
+            //changes - Yu Chi
+            if (!_isInWater)
+                audioSource.PlayOneShot(audioClip[2]);
+            else
+                audioSource.PlayOneShot(audioClip[3]);
+
             _isInWater = true;
+
         }
+        //if not, faster
         else
-        {
             _isInWater = false;
-        }
-        
-        if (collision.gameObject.CompareTag("Path"))
+
+        if (collision.gameObject.CompareTag("House"))
         {
-            _particleScripts.onDirt();
+            audioSource.PlayOneShot(audioClip[6]);
         }
-        else
+
+        if (!collision.gameObject.CompareTag("Mud") && (!collision.gameObject.CompareTag("Water")) &&
+            (!collision.gameObject.CompareTag("Interactable")) && (!collision.gameObject.CompareTag("Ledge")))
         {
-            _particleScripts.onGrass();
+            if (isGrounded)
+            {
+                _particleScripts.onGrass();
+                audioSource.PlayOneShot(audioClip[0]);
+                _isStillInAir = false;
+            }
+            else
+                _particleScripts.onDirt();
         }
     }
 

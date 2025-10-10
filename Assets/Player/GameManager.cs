@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UnityEvent startNewGame;
     [SerializeField] private TMP_Text timer;
     [SerializeField] private Vector3 spawnPosition;
+    [SerializeField] private AudioSource _backgroundMusic;
+
     public bool updateTimer;
     public bool endGame;
     public EndGameScript endGameScript;
@@ -71,5 +73,15 @@ public class GameManager : MonoBehaviour
         endGameScript.initDialogue();
         endGameScript.gameObject.SetActive(true);
         endGame = false;
+    }
+
+    public void playBGM()
+    {
+        _backgroundMusic.Play();
+    }
+
+    public void stopBGM()
+    {
+        _backgroundMusic.Stop();
     }
 }

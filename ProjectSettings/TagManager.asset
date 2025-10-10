@@ -10,6 +10,11 @@ TagManager:
   - Mud
   - Ledge
   - Path
+  - LedgeChecker
+  - House
+  - Bush
+  - ExitHome
+  - EnterHome
   layers:
   - Default
   - TransparentFX
