@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class ParticleScript : MonoBehaviour
 {
     [SerializeField] private Material _particleMat;
-    [SerializeField] private GameObject _particleGameObj;
+    [SerializeField] private ParticleSystem _particleGameObj;
     private bool _moving;
     private bool _onAnything;
 
@@ -16,23 +16,27 @@ public class ParticleScript : MonoBehaviour
 
     public void OnDirt()
     {
-        _particleMat.color = new Color(.5f, .2f, .2f);
+        var _particleColor = _particleGameObj.main;
+        _particleColor.startColor = new Color(.5f, .2f, .2f);
         _onAnything = true;
     }
 
     public void OnGrass()
     {
-        _particleMat.color = new Color(.4f, .6f, .0f);
+        var _particleColor = _particleGameObj.main;
+        _particleColor.startColor = new Color(.4f, .6f, .0f);
         _onAnything = true;
     }
     public void OnMud()
     {
-        _particleMat.color = new Color(.8f, .5f, .0f);
+        var _particleColor = _particleGameObj.main;
+        _particleColor.startColor = new Color(.8f, .5f, .0f);
         _onAnything = true;
     }
     public void OnWater()
     {
-        _particleMat.color = new Color(.0f, .5f, .5f);
+        var _particleColor = _particleGameObj.main;
+        _particleColor.startColor = new Color(.0f, .5f, .5f);
         _onAnything = true;
     }
     public void OnNothing()
@@ -42,19 +46,21 @@ public class ParticleScript : MonoBehaviour
 
     private void Update()
     {
+        var particleSys = _particleGameObj.emission;
+
         if (_onAnything && _moving)
         {
-            _particleGameObj.SetActive(true);
+            particleSys.enabled = true;
         }
         else
         {
-            _particleGameObj.SetActive(false);
+            particleSys.enabled = false;
         }
     }
 
     public void FlipParticle(float y)
     {
-        var particleSys = _particleGameObj.GetComponent<ParticleSystem>().shape;
+        var particleSys = _particleGameObj.shape;
         particleSys.rotation = new Vector3(0, y, 0);
     }
 }

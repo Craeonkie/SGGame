@@ -66,13 +66,23 @@ public class GroundChecker : MonoBehaviour
             {
                 _playerController.standingOn = SurfaceType.Mud;
             }
-            else if (col.CompareTag("Grass") && _playerController.standingOn != SurfaceType.Mud)
+            else if (col.CompareTag("Grass"))
             {
-                _playerController.standingOn = SurfaceType.Grass;
+                if (_playerController.standingOn != SurfaceType.Mud)
+                {
+                    _playerController.standingOn = SurfaceType.Grass;
+                }
             }
-            else if (col.CompareTag("Path") && _playerController.standingOn != SurfaceType.Mud && _playerController.standingOn != SurfaceType.Grass)
+            else if (col.CompareTag("Path"))
             {
-                _playerController.standingOn = SurfaceType.Dirt;
+                if (_playerController.standingOn != SurfaceType.Mud && _playerController.standingOn != SurfaceType.Grass)
+                {
+                    _playerController.standingOn = SurfaceType.Dirt;
+                }
+            }
+            else
+            {
+                _playerController.standingOn = SurfaceType.None;
             }
         }
 
