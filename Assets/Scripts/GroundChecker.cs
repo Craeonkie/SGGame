@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using static PlayerController;
 
 public class GroundChecker : MonoBehaviour
 {
@@ -35,10 +37,56 @@ public class GroundChecker : MonoBehaviour
         if (_hitColliders.Count != 0)
         {
             _playerController.isGrounded = true;
+            UpdateGroundState();
         }
         else
         {
             _playerController.isGrounded = false;
+        }
+    }
+
+    void UpdateGroundState()
+    {
+        foreach (var col in _hitColliders)
+        {
+            if (col.CompareTag("Water"))
+            {
+                if (_playerController.standingOn != SurfaceType.Water)
+                {
+                    _playerController.audioSource.PlayOneShot(_playerController.audioClip[2]);
+                    _playerController.standingOn = SurfaceType.Water;
+                }
+                else
+                {
+                    _playerController.audioSource.PlayOneShot(_playerController.audioClip[3]);
+                }
+                break;
+            }
+            else if (col.CompareTag("Mud"))
+            {
+                _playerController.standingOn = SurfaceType.Mud;
+            }
+            else if (col.CompareTag("Grass") && _playerController.standingOn != SurfaceType.Mud)
+            {
+                _playerController.standingOn = SurfaceType.Grass;
+            }
+            else if (col.CompareTag("Path") && _playerController.standingOn != SurfaceType.Mud && _playerController.standingOn != SurfaceType.Grass)
+            {
+                _playerController.standingOn = SurfaceType.Dirt;
+            }
+        }
+
+        if (_playerController.standingOn == SurfaceType.Mud)
+        {
+            _playerController.audioSource.PlayOneShot(_playerController.audioClip[1]);
+        }
+        else if (_playerController.standingOn == SurfaceType.Grass)
+        {
+
+        }
+        else if (_playerController.standingOn == SurfaceType.Dirt)
+        {
+
         }
     }
 }

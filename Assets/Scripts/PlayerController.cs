@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     //new changes - jolin
     [SerializeField] private Collider ledgeChecker;
     [SerializeField] private ParticleScript _particleScripts;
-    [SerializeField] private GameObject _particle;
 
     //changes - jolin
     [SerializeField] private float _holdTimer = 2f;
@@ -35,8 +34,17 @@ public class PlayerController : MonoBehaviour
     private bool _climb = false;
     private bool _drop = false;
     private bool _ifOnLedge = false;
-    private bool _isInMud = false;
-    private bool _isInWater = false;
+    
+    public enum SurfaceType
+    {
+        None,
+        Grass,
+        Dirt,
+        Mud,
+        Water,
+    }
+    public SurfaceType standingOn = SurfaceType.None;
+
     private bool _isSpacePressed = false;
     private bool _interact = false;
     private float _interactTimer = 1f;
@@ -118,7 +126,6 @@ public class PlayerController : MonoBehaviour
                 _interact = false;
             }
         }
-
     }
 
     private void FixedUpdate()
@@ -144,29 +151,30 @@ public class PlayerController : MonoBehaviour
             float val;
             if (_ifOnLedge && !_isSpacePressed)
             {
-                val = 0;
+                //val = 0;
                 //myRigidbody.useGravity = false;
                 myRigidbody.constraints = RigidbodyConstraints.FreezePosition;
             }
             else
             {
-                val = _acceleration;
+                //val = _acceleration;
                 //myRigibody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 //myRigidbody.useGravity = true;
             }
 
             //check for mud / water
-            if (_isInMud) 
-            { 
+            if (standingOn == SurfaceType.Mud)
+            {
                 val = 5;
-                _particleScripts.onMud();
             }
-            else if (_isInWater)
+            else if (standingOn == SurfaceType.Water)
             {
                 val = 8;
-                _particleScripts.onWater();
             }
-            else  val = _acceleration;
+            else
+            {
+                val = _acceleration;
+            }
 
             Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
             worldMoveDirection.Normalize();
@@ -176,16 +184,12 @@ public class PlayerController : MonoBehaviour
         if (myRigidbody.linearVelocity.x > 0)
         {
             _playerSprite.transform.localScale = new Vector3(1, 1, 1);
-            _particleScripts.flipParticle(0);
+            _particleScripts.FlipParticle(0);
         }
-        else if (myRigidbody.linearVelocity.x > 0)
+        else if (myRigidbody.linearVelocity.x < 0)
         {
             _playerSprite.transform.localScale = new Vector3(-1, 1, 1);
-            _particleScripts.flipParticle(180);
-        }
-        else
-        {
-            _particleScripts.gameObject.SetActive(false);
+            _particleScripts.FlipParticle(180);
         }
 
         // Ground drag (slows horizontal velocity only)
@@ -193,28 +197,50 @@ public class PlayerController : MonoBehaviour
         {
             if (_isMoving)
             {
-                //print("iyvyid");
                 _animator.SetBool("isWalking", true);
                 myRigidbody.linearDamping = _dragWhileMoving;
-                _particle.gameObject.SetActive(true);
+                _particleScripts.Moving(true);
             }
             else
             {
                 _animator.SetBool("isWalking", false);
                 myRigidbody.linearDamping = _dragWhileGrounded;
+                _particleScripts.Moving(false);
             }
             _animator.SetBool("isGrounded", true);
+
+            // Particles
+            if (standingOn == SurfaceType.Water)
+            {
+                _particleScripts.OnWater();
+            }
+            else if (standingOn == SurfaceType.Mud)
+            {
+                _particleScripts.OnMud();
+            }
+            else if (standingOn == SurfaceType.Grass)
+            {
+                _particleScripts.OnGrass();
+            }
+            else if (standingOn == SurfaceType.Dirt)
+            {
+                _particleScripts.OnDirt();
+            }
+            else
+            {
+                _particleScripts.OnNothing();
+            }
         }
         else
         {
-            _particle.gameObject.SetActive(false);
             _animator.SetBool("isGrounded", false);
             myRigidbody.linearDamping = 0;
+            _particleScripts.Moving(false);
         }
 
         if (limitSpeed)
         {
-            Vector3 horizontalVelocity = new Vector3(myRigidbody.linearVelocity.x, 0f, myRigidbody.linearVelocity.z);
+            Vector3 horizontalVelocity = new(myRigidbody.linearVelocity.x, 0f, myRigidbody.linearVelocity.z);
             if (horizontalVelocity.magnitude > _maxVelocity)
             {
                 horizontalVelocity = Mathf.Max(horizontalVelocity.magnitude - (_acceleration * Time.fixedDeltaTime), _maxVelocity) * horizontalVelocity.normalized;
@@ -239,10 +265,10 @@ public class PlayerController : MonoBehaviour
         map.FindAction("Jump").performed += JumpActionPerformed;
 
         //changes - jolin
-        map.FindAction("Climb").performed += climbActionPerformed;
-        map.FindAction("JumpDown").performed += dropActionPerformed;
-        map.FindAction("Swing").performed += swingActionPerformed;
-        map.FindAction("Interact").performed += interactActionPerformed;
+        map.FindAction("Climb").performed += ClimbActionPerformed;
+        map.FindAction("JumpDown").performed += DropActionPerformed;
+        map.FindAction("Swing").performed += SwingActionPerformed;
+        map.FindAction("Interact").performed += InteractActionPerformed;
     }
 
     private void OnDisable()
@@ -264,22 +290,22 @@ public class PlayerController : MonoBehaviour
         var climb = map.FindAction("Climb");
         if (climb != null)
         {
-            climb.performed -= climbActionPerformed;
+            climb.performed -= ClimbActionPerformed;
         }
         var drop = map.FindAction("JumpDown");
         if (drop != null)
         {
-            drop.performed -= dropActionPerformed;
+            drop.performed -= DropActionPerformed;
         }
         var swing = map.FindAction("Swing");
         if (swing != null)
         {
-            swing.performed -= swingActionPerformed;
+            swing.performed -= SwingActionPerformed;
         }
         var interact = map.FindAction("Interact");
         if (interact != null)
         {
-            interact.performed -= interactActionPerformed;
+            interact.performed -= InteractActionPerformed;
         }
     }
 
@@ -299,24 +325,24 @@ public class PlayerController : MonoBehaviour
         _isJumping = true;
     }
 
-    //changes - jolin
-    private void climbActionPerformed(InputAction.CallbackContext ctx)
+    // Changes - Jolin
+    private void ClimbActionPerformed(InputAction.CallbackContext ctx)
     {
         _climb = true;
         _isSpacePressed = true;
     }
 
-    private void dropActionPerformed(InputAction.CallbackContext ctx)
+    private void DropActionPerformed(InputAction.CallbackContext ctx)
     {
         _drop = true;
     }
 
-    private void swingActionPerformed(InputAction.CallbackContext ctx)
+    private void SwingActionPerformed(InputAction.CallbackContext ctx)
     {
         _swing = true;
     }
 
-    private void interactActionPerformed(InputAction.CallbackContext ctx)
+    private void InteractActionPerformed(InputAction.CallbackContext ctx)
     {
         _interact = true;
     }
@@ -387,50 +413,18 @@ public class PlayerController : MonoBehaviour
     //changes - jolin this whole thang
     private void OnCollisionEnter(Collision collision)
     {
-
-        //if on mud and water, slower
-        if (collision.gameObject.CompareTag("Mud"))
-        { 
-            _isInMud = true;
-            audioSource.PlayOneShot(audioClip[1]); //changes - Yu Chi
-        }
-        //if not, faster
-        else 
-        { 
-            _isInMud = false;
-        }
-
-        if (collision.gameObject.CompareTag("Water"))
-        {
-            //changes - Yu Chi
-            if (!_isInWater)
-                audioSource.PlayOneShot(audioClip[2]);
-            else
-                audioSource.PlayOneShot(audioClip[3]);
-
-            _isInWater = true;
-
-        }
-        //if not, faster
-        else
-            _isInWater = false;
-
         if (collision.gameObject.CompareTag("House"))
         {
             audioSource.PlayOneShot(audioClip[6]);
         }
 
-        if (!collision.gameObject.CompareTag("Mud") && (!collision.gameObject.CompareTag("Water")) &&
-            (!collision.gameObject.CompareTag("Interactable")) && (!collision.gameObject.CompareTag("Ledge")))
+        if (!collision.gameObject.CompareTag("Mud") && (!collision.gameObject.CompareTag("Water")) && (!collision.gameObject.CompareTag("Interactable")) && (!collision.gameObject.CompareTag("Ledge")))
         {
             if (isGrounded)
             {
-                _particleScripts.onGrass();
                 audioSource.PlayOneShot(audioClip[0]);
                 _isStillInAir = false;
             }
-            else
-                _particleScripts.onDirt();
         }
         //new changes - Yu Chi
         if (collision.gameObject.CompareTag("Fence") || collision.gameObject.CompareTag("Tree"))
