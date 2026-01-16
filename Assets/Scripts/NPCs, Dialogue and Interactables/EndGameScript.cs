@@ -9,7 +9,7 @@ using UnityEngine.Video;
 public class EndGameScript : MonoBehaviour
 {
     [SerializeField] private NPCSystem[] _npcs;
-    [SerializeField] private Item[] _foodItems;
+    [SerializeField] private ItemInfo[] _foodItems;
 
     [SerializeField] private int _foodCounter = 0;
     [SerializeField] private int _npcCounter = 0;
@@ -18,8 +18,7 @@ public class EndGameScript : MonoBehaviour
     [Header("Dialogue")]
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text dialogueText;
-    [SerializeField] private TMP_Text residentsInvited;
-    [SerializeField] private TMP_Text ingredientsCollected;
+    [SerializeField] private TMP_Text menu;
     [SerializeField] private float typingSpeed = 0.05f; // time between letters
     private List<Dialogue> dialogue;
     private Coroutine typingCoroutine;
@@ -32,6 +31,9 @@ public class EndGameScript : MonoBehaviour
     public UnityEvent displayStatScreen;
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private GameObject videoObject;
+    [SerializeField] private GameObject winScreen;
+    [SerializeField] private GameObject defaultScreen;
+    [SerializeField] private GameObject loseScreen;
     private bool madeItHome = false;
     private bool canPlayFullEnd = false;
 
@@ -48,6 +50,7 @@ public class EndGameScript : MonoBehaviour
 
     public void TriggerEnd()
     {
+        triggerEnd.Invoke();
         CountFood();
         CountNPCS();
 
@@ -57,9 +60,6 @@ public class EndGameScript : MonoBehaviour
         }
         else
         {
-            madeItHome = false;
-            DisplayEndText();
-
             bool npc;
             bool food;
 
@@ -83,9 +83,10 @@ public class EndGameScript : MonoBehaviour
 
             if (npc && food)
             {
-                playEndVideo.Invoke();
+                canPlayFullEnd = true;
             }
-            TallyResults();
+
+            DisplayEndText();
         }
     }
 
@@ -102,14 +103,36 @@ public class EndGameScript : MonoBehaviour
 
     public void CountFood()
     {
-        _foodCounter = _inventory.items.Count;
+        foreach (Item item in _inventory.items)
+        {
+            if (item.itemInfo.isFoodItem)
+            {
+                _foodCounter++;
+            }
+        }
     }
 
     public void TallyResults()
     {
-        residentsInvited.text = _npcCounter.ToString();
-        ingredientsCollected.text = _foodCounter.ToString();
+        menu.text = "Friends Invited: " + _npcCounter.ToString() + "\nIngredients Collected: " + _foodCounter.ToString();
         displayStatScreen.Invoke();
+
+        // Background
+        winScreen.SetActive(false);
+        defaultScreen.SetActive(false);
+        loseScreen.SetActive(false);
+        if (canPlayFullEnd)
+        {
+            winScreen.SetActive(true);
+        }
+        else if (_npcCounter > _npcs.Length / 2 || _foodCounter > _foodItems.Length / 2)
+        {
+            defaultScreen.SetActive(true);
+        }
+        else
+        {
+            loseScreen.SetActive(true);
+        }
     }
 
     public void ResetValues()
@@ -119,6 +142,7 @@ public class EndGameScript : MonoBehaviour
         _foodCounter = 0;
         _npcCounter = 0;
         canPlayFullEnd = false;
+        madeItHome = false;
     }
 
     public void Temp()
@@ -147,23 +171,44 @@ public class EndGameScript : MonoBehaviour
             dialogue.Add(new Dialogue("Wow, you got so many people ah?", true));
             dialogue.Add(new Dialogue("Good job!!", true));
         }
-        else
+        else if (_npcCounter > 0)
         {
             dialogue.Add(new Dialogue("Mm... not a lot of people leh..", true));
             dialogue.Add(new Dialogue("[Your mom sighs out in disappointment.]", true));
+        }
+        else
+        {
+            dialogue.Add(new Dialogue("Ah Boy...You didn't even invite a single person...", true));
+            dialogue.Add(new Dialogue("What were you doing the whole day ah?!", true));
+        }
+        
+        if (_npcCounter == 0)
+        {
+            dialogue.Add(new Dialogue("...", true));
         }
 
         if (_foodCounter > _foodItems.Length / 2)
         {
             dialogue.Add(new Dialogue("...I managed to cook everything I needed to!", true));
+            if (_npcCounter == 0)
+            {
+                dialogue.Add(new Dialogue("...but who are we cooking for ah...", true));
+            }
+        }
+        else if (_foodCounter > 0)
+        {
+            dialogue.Add(new Dialogue("...Aiyah.. I didn't get to cook everything they like..", true));
         }
         else
         {
-            dialogue.Add(new Dialogue("Aiyah.. I didn't get to cook everything they like..", true));
+            dialogue.Add(new Dialogue("...Ah Boy, did you forget to bring the ingredients?", true));
         }
 
-        dialogue.Add(new Dialogue("[You sit with your friends, chatting and playing.]", false));
-        dialogue.Add(new Dialogue("Everyone: Happy National Day!!", false));
+        if (_npcCounter > 0)
+        {
+            dialogue.Add(new Dialogue("[You sit with your friends, chatting and playing.]", false));
+            dialogue.Add(new Dialogue("Happy National Day!!", false));
+        }
     }
 
     private void EnterDialogue()
@@ -173,13 +218,20 @@ public class EndGameScript : MonoBehaviour
 
     private void ShowLine()
     {
-        if (dialogue[currentDialogueIndex].isNPCSpeaking)
+        if (currentDialogueIndex == (dialogue.Count - 1))
+        {
+            if (_npcCounter == 0)
+            {
+                nameText.text = "Mom";
+            }
+            else
+            {
+                nameText.text = "Everyone";
+            }
+        }
+        else if (dialogue[currentDialogueIndex].isNPCSpeaking)
         {
             nameText.text = "Mom";
-        }
-        else if (currentDialogueIndex == 7)
-        {
-            nameText.text = "Everyone";
         }
         else
         {
@@ -219,7 +271,7 @@ public class EndGameScript : MonoBehaviour
         }
         else
         {
-            if (currentDialogueIndex >= 7)
+            if (currentDialogueIndex == dialogue.Count - 1)
             {
                 if (canPlayFullEnd)
                 {
@@ -227,8 +279,6 @@ public class EndGameScript : MonoBehaviour
                 }
                 else
                 {
-                    residentsInvited.text = _npcCounter.ToString();
-                    ingredientsCollected.text = _foodCounter.ToString();
                     TallyResults();
                 }
             }

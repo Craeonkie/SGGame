@@ -13,7 +13,7 @@ public class NPCInfo : ScriptableObject
     private int currentDialogueIndex;
     [Header("Quest")]
     public bool hasQuest;
-    public Item requiredItem;
+    public ItemInfo requiredItem;
     public bool finishedQuest;
     private bool interactedWithOnce;
 

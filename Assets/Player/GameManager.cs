@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,16 +68,19 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        updateTimer = false;
-        startNewGame.Invoke();
-        gameInfo.ResetValues();
-        string seconds = Mathf.Floor(gameInfo.currentTimer % 60).ToString();
-        if (seconds.Length < 2)
-        {
-            seconds = '0' + seconds;
-        }
-        timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + seconds;
-        player.transform.position = spawnPosition;
+        //updateTimer = false;
+        //startNewGame.Invoke();
+        //gameInfo.ResetValues();
+        //endGameScript.ResetValues();
+        //string seconds = Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+        //if (seconds.Length < 2)
+        //{
+        //    seconds = '0' + seconds;
+        //}
+        //timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + seconds;
+        //player.transform.position = spawnPosition;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void EndGame()

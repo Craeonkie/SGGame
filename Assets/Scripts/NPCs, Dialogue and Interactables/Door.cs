@@ -15,6 +15,11 @@ public class Door : BaseInteractable
         player.transform.position = otherDoor.position;
     }
 
+    public void TeleportToSelf()
+    {
+        player.transform.position = transform.position;
+    }
+
     public override void GetInteractedWith()
     {
         TeleportToDoor();

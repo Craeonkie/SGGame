@@ -7,9 +7,9 @@ public class NPCSystem : BaseInteractable
     private DialogueManager dialogueManager;
     public bool isJoining = false;
 
-    [Header("If they hold an item:")]
+    [Header("If they hold an item")]
     [SerializeField] private bool _HoldingItem;
-    [SerializeField] private Item _ItemHeld;
+    [SerializeField] private Item _itemHeld;
 
     private void Start()
     {
@@ -17,8 +17,8 @@ public class NPCSystem : BaseInteractable
         ResetValues();
 
         //scuffed way to check if they have item or nah
-        if (_ItemHeld == null)
-            _ItemHeld = null;
+        if (_itemHeld == null)
+            _itemHeld = null;
     }
 
     private void Update()
@@ -49,9 +49,9 @@ public class NPCSystem : BaseInteractable
         }
 
         //if the npc is holding an item
-        if (_HoldingItem && !_ItemHeld.isCollected)
+        if (_HoldingItem)
         {
-            hasItem();
+            GiveItem();
         }
 
         //if (_needsItem && inventory.HasItem(npc.requiredItem))
@@ -62,10 +62,10 @@ public class NPCSystem : BaseInteractable
         //}
     }
 
-    public void hasItem()
+    public void GiveItem()
     {
         isJoining = true;
-        inventory.ObtainItem(_ItemHeld);
+        inventory.ObtainItem(_itemHeld);
     }
 
     public void DoDialogue()

@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
         // Movement
         //changes made here - jolin
 
-        if (_isSpacePressed)
+        if (_isSpacePressed && !inMenu)
         {
             myRigidbody.constraints &= ~RigidbodyConstraints.FreezePosition;
             myRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
@@ -339,7 +339,10 @@ public class PlayerController : MonoBehaviour
 
     private void SwingActionPerformed(InputAction.CallbackContext ctx)
     {
-        _swing = true;
+        if (!inMenu)
+        {
+            _swing = true;
+        }
     }
 
     private void InteractActionPerformed(InputAction.CallbackContext ctx)

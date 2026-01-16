@@ -1,10 +1,18 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
-public class Item : ScriptableObject
+public class Item : BaseInteractable
 {
-    public string itemName;
-    public Vector3 spawnLocation;
-    public bool isFoodItem;
-    public bool isCollected;
+    public ItemInfo itemInfo;
+    [SerializeField] private Inventory playerInventory;
+
+    public void GetObtained()
+    {
+        playerInventory.ObtainItem(this);
+    }
+
+    public override void ResetValues()
+    {
+        base.ResetValues();
+        transform.position = itemInfo.spawnLocation;
+    }
 }
