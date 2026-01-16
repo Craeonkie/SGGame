@@ -37,4 +37,3 @@ MonoBehaviour:
   hasQuest: 0
   requiredItem: {fileID: 0}
   finishedQuest: 0
-  points: 1

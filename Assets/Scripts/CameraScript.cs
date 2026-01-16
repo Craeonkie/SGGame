@@ -2,53 +2,42 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public Camera[] cam;
-    public Camera testCam;
-    public GameObject cinemachineObj;
+    [SerializeField] private Camera[] cam;
 
-    public void enableCamera(Camera camera)
+    public void EnableCamera(Camera camera)
     {
-        for (int i = 0; i < cam.Length; i++)
+        foreach (Camera c in cam)
         {
-            if (camera == cam[i])
-            {
-
-                cam[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                cam[i].gameObject.SetActive(false);
-            }
+            c.gameObject.SetActive(false);
         }
-        disableCinemachine();
+        camera.gameObject.SetActive(true);
     }
 
-    public void disableCamera(Camera camera)
-    {
-        for (int i = 0; i < cam.Length; i++)
-        {
-            if (camera == cam[i])
-            {
+    //private void DisableCamera(Camera camera)
+    //{
+    //    for (int i = 0; i < cam.Length; i++)
+    //    {
+    //        if (camera == cam[i])
+    //        {
 
-                cam[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                cam[i].gameObject.SetActive(false);
-            }
-        }
-        enableCinemachine();
-    }
+    //            cam[i].gameObject.SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            cam[i].gameObject.SetActive(false);
+    //        }
+    //    }
+    //    EnableCinemachine();
+    //}
 
-    public void enableCinemachine()
-    {
-        cinemachineObj.gameObject.SetActive(true);
-    }
-    //re-enable it everytime
+    //private void EnableCinemachine()
+    //{
+    //    cinemachineObj.SetActive(true);
+    //}
+    ////re-enable it everytime
 
-    public void disableCinemachine()
-    {
-        cinemachineObj.gameObject.SetActive(false);
-    }
-    //always disable
+    //private void DisableCinemachine()
+    //{
+    //    cinemachineObj.SetActive(false);
+    //}
 }
