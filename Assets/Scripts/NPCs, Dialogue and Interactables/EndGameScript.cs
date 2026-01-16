@@ -27,22 +27,42 @@ public class EndGameScript : MonoBehaviour
     private int currentDialogueIndex = 0;
 
     [Header("Game End Cutscene")]
-    public UnityEvent playEnding;
-    public UnityEvent playFullEnd;
+    public UnityEvent triggerEnd;
+    public UnityEvent playEndVideo;
     public UnityEvent displayStatScreen;
+    [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private GameObject videoObject;
     private bool madeItHome = false;
     private bool canPlayFullEnd = false;
 
+    private void Start()
+    {
+        videoPlayer.loopPointReached += OnVideoFinished;
+        dialogue = new List<Dialogue>();
+    }
+
+    public void EnterHome()
+    {
+        madeItHome = true;
+    }
+
     public void TriggerEnd()
     {
+        CountFood();
+        CountNPCS();
+
         if (!madeItHome)
         {
             TallyResults();
         }
         else
         {
-            madeItHome = true;
-            bool npc; bool food;
+            madeItHome = false;
+            DisplayEndText();
+
+            bool npc;
+            bool food;
+
             if (_npcCounter > _npcs.Length / 2)
             {
                 npc = true;
@@ -63,10 +83,9 @@ public class EndGameScript : MonoBehaviour
 
             if (npc && food)
             {
-                canPlayFullEnd = true;
+                playEndVideo.Invoke();
             }
-
-            PlayEnding();
+            TallyResults();
         }
     }
 
@@ -81,43 +100,16 @@ public class EndGameScript : MonoBehaviour
         }
     }
 
-    public void TallyResults()
-    {
-        residentsInvited.text = _npcCounter.ToString();
-        ingredientsCollected.text = _foodCounter.ToString();
-        displayStatScreen.Invoke();
-    }
-
     public void CountFood()
     {
         _foodCounter = _inventory.items.Count;
     }
 
-    public void InitDialogue()
+    public void TallyResults()
     {
-        if (_npcCounter > _npcs.Length / 2)
-        {
-            dialogue.Add(new Dialogue("Wow, you got the whole kampong ah?", true));
-            dialogue.Add(new Dialogue("Good job!!", true));
-        }
-        else
-        {
-            dialogue.Add(new Dialogue("Mm... Not a lot of people leh..", true));
-            dialogue.Add(new Dialogue("[Your mom sighs out in disappointment.]", true));
-        }
-
-        if (_foodCounter > _foodItems.Length / 2)
-        {
-            dialogue.Add(new Dialogue("...I managed to cook everything I needed to!", true));
-        }
-        else
-        {
-            dialogue.Add(new Dialogue("Wah.. I didn't get to cook what they like..", true));
-        }
-
-        dialogue.Add(new Dialogue("[You sit with your friends, chatting and playing.]", false));
-        dialogue.Add(new Dialogue("Everyone: Happy National Day!!", false));
-
+        residentsInvited.text = _npcCounter.ToString();
+        ingredientsCollected.text = _foodCounter.ToString();
+        displayStatScreen.Invoke();
     }
 
     public void ResetValues()
@@ -129,11 +121,49 @@ public class EndGameScript : MonoBehaviour
         canPlayFullEnd = false;
     }
 
-    public void PlayEnding()
+    public void Temp()
     {
-        playEnding.Invoke();
+        playEndVideo.Invoke();
+    }
+
+    public void DisplayEndText()
+    {
         InitDialogue();
         EnterDialogue();
+    }
+
+    private void OnVideoFinished(VideoPlayer source)
+    {
+        videoObject.SetActive(false);
+        TallyResults();
+    }
+
+    //// Dialogue stuff
+    // Initialize dialogue for the dialogue screen to display
+    public void InitDialogue()
+    {
+        if (_npcCounter > _npcs.Length / 2)
+        {
+            dialogue.Add(new Dialogue("Wow, you got so many people ah?", true));
+            dialogue.Add(new Dialogue("Good job!!", true));
+        }
+        else
+        {
+            dialogue.Add(new Dialogue("Mm... not a lot of people leh..", true));
+            dialogue.Add(new Dialogue("[Your mom sighs out in disappointment.]", true));
+        }
+
+        if (_foodCounter > _foodItems.Length / 2)
+        {
+            dialogue.Add(new Dialogue("...I managed to cook everything I needed to!", true));
+        }
+        else
+        {
+            dialogue.Add(new Dialogue("Aiyah.. I didn't get to cook everything they like..", true));
+        }
+
+        dialogue.Add(new Dialogue("[You sit with your friends, chatting and playing.]", false));
+        dialogue.Add(new Dialogue("Everyone: Happy National Day!!", false));
     }
 
     private void EnterDialogue()
@@ -193,7 +223,7 @@ public class EndGameScript : MonoBehaviour
             {
                 if (canPlayFullEnd)
                 {
-                    playFullEnd.Invoke();
+                    playEndVideo.Invoke();
                 }
                 else
                 {

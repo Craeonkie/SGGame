@@ -2,6 +2,7 @@ using NUnit.Framework.Interfaces;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,8 +19,13 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Temp
         startNewGame.Invoke();
+        string seconds = Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+        if (seconds.Length < 2)
+        {
+            seconds = '0' + seconds;
+        }
+        timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + seconds;
     }
 
     private void Update()
@@ -34,7 +40,12 @@ public class GameManager : MonoBehaviour
             {
                 gameInfo.currentTimer -= Time.deltaTime;
                 //timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + (Mathf.Floor(gameInfo.currentTimer % 60 * 10) / 10).ToString();
-                timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+                string seconds = Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+                if (seconds.Length < 2)
+                {
+                    seconds = '0' + seconds;
+                }
+                timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + seconds;
             }
         }
     }
@@ -59,6 +70,12 @@ public class GameManager : MonoBehaviour
         updateTimer = false;
         startNewGame.Invoke();
         gameInfo.ResetValues();
+        string seconds = Mathf.Floor(gameInfo.currentTimer % 60).ToString();
+        if (seconds.Length < 2)
+        {
+            seconds = '0' + seconds;
+        }
+        timer.text = Mathf.Floor(gameInfo.currentTimer / 60) + ":" + seconds;
         player.transform.position = spawnPosition;
     }
 

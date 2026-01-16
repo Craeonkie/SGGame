@@ -97,7 +97,7 @@ using UnityEngine;
 public class InteractionChecker : MonoBehaviour
 {
     [SerializeField] private string tagName;
-    private List<Collider> _hitColliders;
+    [SerializeField] private List<Collider> _hitColliders;
     private bool canInteract;
 
     private void Start()
@@ -118,7 +118,7 @@ public class InteractionChecker : MonoBehaviour
     {
         if (other.gameObject.CompareTag(tagName))
         {
-            _hitColliders.Add(other);
+            _hitColliders.Remove(other);
         }
     }
 
@@ -131,7 +131,10 @@ public class InteractionChecker : MonoBehaviour
 
             foreach (Collider collider in _hitColliders)
             {
-                if (collider == null) continue; // Skip null entries in the list
+                if (collider == null)
+                {
+                    continue; // Skip null entries in the list
+                }
 
                 // Calculate the closest point on the current collider to the reference position
                 float distance = Vector3.Distance(transform.position, collider.transform.position);
