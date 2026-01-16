@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
             }
             else  val = _acceleration;
 
-                Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
+            Vector3 worldMoveDirection = _moveDirection.y * transform.forward + _moveDirection.x * transform.right;
             worldMoveDirection.Normalize();
             myRigidbody.linearVelocity += val * Time.fixedDeltaTime * worldMoveDirection;
         }
@@ -178,10 +178,14 @@ public class PlayerController : MonoBehaviour
             _playerSprite.transform.localScale = new Vector3(1, 1, 1);
             _particleScripts.flipParticle(0);
         }
-        else/* if (myRigidbody.linearVelocity.x > 0)*/
+        else if (myRigidbody.linearVelocity.x > 0)
         {
             _playerSprite.transform.localScale = new Vector3(-1, 1, 1);
             _particleScripts.flipParticle(180);
+        }
+        else
+        {
+            _particleScripts.gameObject.SetActive(false);
         }
 
         // Ground drag (slows horizontal velocity only)
